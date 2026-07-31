@@ -250,7 +250,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
                       <div className="mb-4">
                         <div className="flex items-center gap-3 mb-1">
                           <div className="text-3xl font-heading font-medium text-foreground">
-                            ₹{project.stats?.revenue?.toLocaleString('en-IN') || '0'}
+                            ₹{project.stats?.revenue !== undefined ? Number(project.stats.revenue).toLocaleString('en-IN') : '0'}
                           </div>
                           <span className="text-xs font-bold text-background bg-foreground px-2 py-1 flex items-center tracking-widest">
                             <TrendingUp size={12} className="mr-1" /> +24%
@@ -414,7 +414,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
                           {projectDetails.stats.revenue !== undefined && (
                             <div className="bg-background border border-border p-4">
                               <p className="text-xs font-bold tracking-widest text-foreground/60 mb-1">REVENUE</p>
-                              <p className="text-xl font-heading text-foreground">₹{projectDetails.stats.revenue.toLocaleString('en-IN')}</p>
+                              <p className="text-xl font-heading text-foreground">₹{Number(projectDetails.stats.revenue).toLocaleString('en-IN')}</p>
                             </div>
                           )}
                           {projectDetails.stats.roas !== undefined && (

@@ -35,8 +35,11 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
     let chartData = [];
     try {
       chartData = JSON.parse(chartDataJson);
-    } catch (e) {
-      alert('Invalid JSON in chart data');
+      if (!Array.isArray(chartData)) {
+        throw new Error('Chart data must be an array of objects');
+      }
+    } catch (e: any) {
+      alert(e.message || 'Invalid JSON in chart data');
       setIsSubmitting(false);
       return;
     }
@@ -234,7 +237,7 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Revenue</p>
-                    <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">₹{item.revenue.toLocaleString('en-IN')}</p>
+                    <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">₹{Number(item.revenue).toLocaleString('en-IN')}</p>
                   </div>
                   <div>
                     <p className="text-sm font-medium text-slate-500 dark:text-slate-400">ROAS</p>
