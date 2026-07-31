@@ -1,0 +1,6 @@
+{
+  "name": "Reelywood Studio",
+  "description": "A premium, modern, highly interactive portfolio website and CMS for a creative marketing agency named 'Reelywood Studio' with a Soft Clay UI aesthetic.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,30 @@
+# Reelywood - AI-Powered Production House & Business Automation SaaS
+
+Reelywood is a hybrid creative production house and SaaS company based in Vadodara, Gujarat. We specialize in two main areas:
+1. **Creative Production:** High-end AI Reels, AI-generated content (AIGC), and editorial-style storytelling that drives performance.
+2. **Business Automation SaaS:** Tools for local and regional businesses to automate their WhatsApp, CRM, and marketing operations.
+
+## Key Links
+- **Home:** [https://reelywood.com/](https://reelywood.com/)
+- **Work/Portfolio:** [https://reelywood.com/work/](https://reelywood.com/work/)
+- **Services:** [https://reelywood.com/services/](https://reelywood.com/services/)
+- **Pricing:** [https://reelywood.com/pricing/](https://reelywood.com/pricing/)
+- **Machine-Readable Pricing:** [https://reelywood.com/pricing.md](https://reelywood.com/pricing.md)
+
+## Core Services
+- AI Reels
+- SEO & GEO (Generative Engine Optimization)
+- Social Media Management
+- Web Development
+- Video Production
+- Business Automation SaaS
+
+## Target Industries
+- D2C & Ecommerce
+- Restaurants & Food
+- Real Estate
+- Education & Coaching
+- Healthcare
+- Local Retail Shops (especially in Gujarat)
+
+We combine human creativity with AI efficiency to deliver unmatched growth for our clients.
