@@ -61,7 +61,7 @@ export default function Admin() {
       setNewBrandName('');
       setIsAddingBrand(false);
     } else if (error) {
-      alert(error.message);
+      console.error(error.message);
     }
   };
 

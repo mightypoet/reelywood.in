@@ -25,8 +25,8 @@ export default function AIGCManager({ brandId }: { brandId: string | null }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!brandId) return alert('Please select a brand first');
-    if (mediaUrls.length === 0) return alert('Please upload media first');
+    if (!brandId) return;
+    if (mediaUrls.length === 0) return;
     setIsSubmitting(true);
     
     if (editingId) {
@@ -37,7 +37,7 @@ export default function AIGCManager({ brandId }: { brandId: string | null }) {
 
       setIsSubmitting(false);
       if (error) {
-        alert('Error: ' + error.message);
+        console.error('Error:', error.message);
       } else {
         resetForm();
         fetchItems();
@@ -53,7 +53,7 @@ export default function AIGCManager({ brandId }: { brandId: string | null }) {
       
       setIsSubmitting(false);
       if (error) {
-        alert('Error: ' + error.message);
+        console.error('Error:', error.message);
       } else {
         resetForm();
         fetchItems();
@@ -71,14 +71,13 @@ export default function AIGCManager({ brandId }: { brandId: string | null }) {
     setEditingId(item.id);
     setTitle(item.title);
     setMediaUrls([item.media_url]);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this item?')) return;
     const { error } = await supabase.from('aigc').delete().eq('id', id);
     if (error) {
-      alert('Error: ' + error.message);
+      console.error('Error:', error.message);
     } else {
       fetchItems();
     }
@@ -162,11 +161,11 @@ export default function AIGCManager({ brandId }: { brandId: string | null }) {
                 {item.brands?.name || 'Unknown Brand'}
               </span>
 
-              <div className="absolute top-2 right-2 flex gap-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button onClick={() => handleEdit(item)} className="p-2 bg-white/90 dark:bg-slate-800/90 hover:bg-indigo-50 dark:hover:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-lg shadow-sm backdrop-blur-md transition-colors">
+              <div className="absolute top-2 right-2 flex gap-2 z-10 transition-opacity">
+                <button type="button" onClick={() => handleEdit(item)} className="p-2 bg-white/90 dark:bg-slate-800/90 hover:bg-indigo-50 dark:hover:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-lg shadow-sm backdrop-blur-md transition-colors">
                   <Edit2 size={16} />
                 </button>
-                <button onClick={() => handleDelete(item.id)} className="p-2 bg-white/90 dark:bg-slate-800/90 hover:bg-rose-50 dark:hover:bg-rose-900/50 text-rose-600 dark:text-rose-400 rounded-lg shadow-sm backdrop-blur-md transition-colors">
+                <button type="button" onClick={() => handleDelete(item.id)} className="p-2 bg-white/90 dark:bg-slate-800/90 hover:bg-rose-50 dark:hover:bg-rose-900/50 text-rose-600 dark:text-rose-400 rounded-lg shadow-sm backdrop-blur-md transition-colors">
                   <Trash2 size={16} />
                 </button>
               </div>

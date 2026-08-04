@@ -29,7 +29,7 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!brandId) return alert('Please select a brand first');
+    if (!brandId) return;
     setIsSubmitting(true);
     
     let chartData = [];
@@ -39,7 +39,7 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
         throw new Error('Chart data must be an array of objects');
       }
     } catch (e: any) {
-      alert(e.message || 'Invalid JSON in chart data');
+      console.error(e.message || 'Invalid JSON in chart data');
       setIsSubmitting(false);
       return;
     }
@@ -56,7 +56,7 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
 
       setIsSubmitting(false);
       if (error) {
-        alert('Error: ' + error.message);
+        console.error('Error:', error.message);
       } else {
         resetForm();
         fetchItems();
@@ -74,7 +74,7 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
       
       setIsSubmitting(false);
       if (error) {
-        alert('Error: ' + error.message);
+        console.error('Error:', error.message);
       } else {
         resetForm();
         fetchItems();
@@ -100,14 +100,13 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
     setCtr(item.ctr?.toString() || '');
     setCpa(item.cpa?.toString() || '');
     setChartDataJson(JSON.stringify(item.chart_data, null, 2) || '[]');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this item?')) return;
     const { error } = await supabase.from('performance_marketing').delete().eq('id', id);
     if (error) {
-      alert('Error: ' + error.message);
+      console.error('Error:', error.message);
     } else {
       fetchItems();
     }
@@ -223,11 +222,11 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
                 {item.brands?.name || 'Unknown Brand'}
               </span>
 
-              <div className="absolute top-10 right-2 flex flex-col gap-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button onClick={() => handleEdit(item)} className="p-2 bg-white/90 dark:bg-slate-800/90 hover:bg-indigo-50 dark:hover:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-lg shadow-sm border border-slate-100 dark:border-slate-700 backdrop-blur-md transition-colors">
+              <div className="absolute top-10 right-2 flex flex-col gap-2 z-10 transition-opacity">
+                <button type="button" onClick={() => handleEdit(item)} className="p-2 bg-white/90 dark:bg-slate-800/90 hover:bg-indigo-50 dark:hover:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-lg shadow-sm border border-slate-100 dark:border-slate-700 backdrop-blur-md transition-colors">
                   <Edit2 size={16} />
                 </button>
-                <button onClick={() => handleDelete(item.id)} className="p-2 bg-white/90 dark:bg-slate-800/90 hover:bg-rose-50 dark:hover:bg-rose-900/50 text-rose-600 dark:text-rose-400 rounded-lg shadow-sm border border-slate-100 dark:border-slate-700 backdrop-blur-md transition-colors">
+                <button type="button" onClick={() => handleDelete(item.id)} className="p-2 bg-white/90 dark:bg-slate-800/90 hover:bg-rose-50 dark:hover:bg-rose-900/50 text-rose-600 dark:text-rose-400 rounded-lg shadow-sm border border-slate-100 dark:border-slate-700 backdrop-blur-md transition-colors">
                   <Trash2 size={16} />
                 </button>
               </div>
