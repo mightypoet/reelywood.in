@@ -9,8 +9,8 @@ import PerformanceManager from '../components/admin/PerformanceManager';
 
 export default function Admin() {
   const [session, setSession] = useState<any>(null);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('info@reelywood.com');
+  const [password, setPassword] = useState('rohan@9123');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('overview');
@@ -107,7 +107,7 @@ export default function Admin() {
                 type="email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@reelywood.com" 
+                placeholder="info@reelywood.com" 
                 className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" 
                 required
               />
