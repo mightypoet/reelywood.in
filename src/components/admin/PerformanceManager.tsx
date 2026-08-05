@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Loader2, TrendingUp, Trash2, Edit2 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import MediaUploader from './MediaUploader';
 
 export default function PerformanceManager({ brandId }: { brandId: string | null }) {
   const [campaignName, setCampaignName] = useState('');
@@ -9,6 +10,7 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
   const [roas, setRoas] = useState('');
   const [ctr, setCtr] = useState('');
   const [cpa, setCpa] = useState('');
+  const [brandLogoUrl, setBrandLogoUrl] = useState('');
   const [chartDataJson, setChartDataJson] = useState('[\n  {"name": "Jan", "value": 4000},\n  {"name": "Feb", "value": 3000},\n  {"name": "Mar", "value": 2000}\n]');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [items, setItems] = useState<any[]>([]);
@@ -51,7 +53,8 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
         roas: parseFloat(roas), 
         ctr: parseFloat(ctr), 
         cpa: parseFloat(cpa), 
-        chart_data: chartData 
+        chart_data: chartData,
+        brand_logo_url: brandLogoUrl || null
       }).eq('id', editingId);
 
       setIsSubmitting(false);
@@ -69,7 +72,8 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
         roas: parseFloat(roas), 
         ctr: parseFloat(ctr), 
         cpa: parseFloat(cpa), 
-        chart_data: chartData 
+        chart_data: chartData,
+        brand_logo_url: brandLogoUrl || null
       }]);
       
       setIsSubmitting(false);
@@ -88,6 +92,7 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
     setRoas('');
     setCtr('');
     setCpa('');
+    setBrandLogoUrl('');
     setChartDataJson('[\n  {"name": "Jan", "value": 4000},\n  {"name": "Feb", "value": 3000},\n  {"name": "Mar", "value": 2000}\n]');
     setEditingId(null);
   };
@@ -99,6 +104,7 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
     setRoas(item.roas?.toString() || '');
     setCtr(item.ctr?.toString() || '');
     setCpa(item.cpa?.toString() || '');
+    setBrandLogoUrl(item.brand_logo_url || '');
     setChartDataJson(JSON.stringify(item.chart_data, null, 2) || '[]');
     document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -186,6 +192,22 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
                   required 
                   className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none" 
                 />
+              </div>
+              <div className="lg:col-span-4">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Brand Logo (Optional)</label>
+                {brandLogoUrl ? (
+                  <div className="space-y-2">
+                    <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl border border-emerald-200 dark:border-emerald-800 flex justify-between items-center">
+                      <span className="text-sm font-medium text-emerald-700 dark:text-emerald-400">Logo selected</span>
+                      <button type="button" onClick={() => setBrandLogoUrl('')} className="text-emerald-700 dark:text-emerald-400 hover:text-emerald-900 dark:hover:text-emerald-300 text-sm font-medium">Clear</button>
+                    </div>
+                    <div className="w-16 h-16 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 bg-white">
+                      <img src={brandLogoUrl} className="w-full h-full object-contain" />
+                    </div>
+                  </div>
+                ) : (
+                  <MediaUploader onUploadSuccess={(urls) => setBrandLogoUrl(urls[0])} acceptedTypes="image/*" />
+                )}
               </div>
               <div className="lg:col-span-4">
                 <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Chart Data (JSON)</label>

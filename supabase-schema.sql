@@ -62,6 +62,7 @@ CREATE TABLE public.performance_marketing (
   ctr NUMERIC NOT NULL,
   cpa NUMERIC NOT NULL,
   chart_data JSONB NOT NULL DEFAULT '[]'::jsonb,
+  brand_logo_url TEXT,
   created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
 );
 

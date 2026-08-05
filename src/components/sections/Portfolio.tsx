@@ -94,7 +94,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
         title: item.campaign_name,
         category: 'Performance',
         media_type: 'chart' as const, 
-        media_url: '',
+        media_url: item.brand_logo_url || '',
         client: item.brands?.name || 'Unknown Brand',
         stats: {
           revenue: item.revenue,
@@ -247,6 +247,11 @@ export default function Portfolio({ limit }: { limit?: number }) {
                     />
                   ) : (
                     <div className="absolute inset-0 w-full h-full bg-background p-6 flex flex-col pt-12">
+                      {project.media_url && (
+                        <div className="absolute top-6 right-6 w-12 h-12 rounded-md bg-white p-1 border border-border flex items-center justify-center z-10">
+                          <img src={project.media_url} alt="Brand Logo" className="max-w-full max-h-full object-contain" />
+                        </div>
+                      )}
                       <div className="mb-4">
                         <div className="flex items-center gap-3 mb-1">
                           <div className="text-3xl font-heading font-medium text-foreground">
