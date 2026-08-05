@@ -54,7 +54,7 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
         ctr: parseFloat(ctr), 
         cpa: parseFloat(cpa), 
         chart_data: chartData,
-        brand_logo_url: brandLogoUrl || null
+        brand_logo: brandLogoUrl || null
       }).eq('id', editingId);
 
       setIsSubmitting(false);
@@ -73,7 +73,7 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
         ctr: parseFloat(ctr), 
         cpa: parseFloat(cpa), 
         chart_data: chartData,
-        brand_logo_url: brandLogoUrl || null
+        brand_logo: brandLogoUrl || null
       }]);
       
       setIsSubmitting(false);
@@ -104,7 +104,7 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
     setRoas(item.roas?.toString() || '');
     setCtr(item.ctr?.toString() || '');
     setCpa(item.cpa?.toString() || '');
-    setBrandLogoUrl(item.brand_logo_url || '');
+    setBrandLogoUrl(item.brand_logo || '');
     setChartDataJson(JSON.stringify(item.chart_data, null, 2) || '[]');
     document.querySelector('main')?.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -254,7 +254,14 @@ export default function PerformanceManager({ brandId }: { brandId: string | null
               </div>
 
               <div className="flex-1">
-                <h4 className="text-xl font-bold text-slate-900 dark:text-white mb-4">{item.campaign_name}</h4>
+                <div className="flex items-center gap-4 mb-4">
+                  {item.brand_logo && (
+                    <div className="w-12 h-12 rounded-lg bg-white p-1 border border-slate-200 dark:border-slate-700 flex items-center justify-center shrink-0">
+                      <img src={item.brand_logo} alt="Logo" className="max-w-full max-h-full object-contain" />
+                    </div>
+                  )}
+                  <h4 className="text-xl font-bold text-slate-900 dark:text-white">{item.campaign_name}</h4>
+                </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Revenue</p>

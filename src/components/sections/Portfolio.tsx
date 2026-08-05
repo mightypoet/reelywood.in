@@ -94,7 +94,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
         title: item.campaign_name,
         category: 'Performance',
         media_type: 'chart' as const, 
-        media_url: item.brand_logo_url || '',
+        media_url: item.brand_logo || '',
         client: item.brands?.name || 'Unknown Brand',
         stats: {
           revenue: item.revenue,
@@ -382,6 +382,11 @@ export default function Portfolio({ limit }: { limit?: number }) {
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center p-6 bg-background">
+                         {projectDetails.media_url && (
+                           <div className="absolute top-6 right-6 w-16 h-16 rounded-md bg-white p-2 border border-border flex items-center justify-center z-10">
+                             <img src={projectDetails.media_url} alt="Brand Logo" className="max-w-full max-h-full object-contain" />
+                           </div>
+                         )}
                          <ResponsiveContainer width="100%" height="100%">
                             <AreaChart data={projectDetails.stats?.chart_data || []}>
                               <defs>
