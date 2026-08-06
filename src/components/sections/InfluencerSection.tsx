@@ -8,7 +8,7 @@ export default function InfluencerSection() {
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
           <div>
             <p className="font-mono text-sm tracking-widest uppercase text-maroon mb-6">[ Creators ]</p>
-            <h2 className="text-4xl md:text-5xl font-heading">Influencer Network</h2>
+            <h2 className="font-heading text-4xl md:text-5xl font-heading">Influencer Network</h2>
           </div>
           <p className="font-sans font-light text-ink/70 max-w-md">Access our vetted roster of native creators who understand platform nuances and know how to drive authentic engagement.</p>
         </div>

@@ -14,7 +14,7 @@ export default function ClientMarquee() {
       <div className="max-w-7xl mx-auto px-6 md:px-12 mb-12">
         <div className="flex items-center justify-center gap-4">
           <div className="h-px w-12 bg-[#7A2A2A]" />
-          <h2 className="text-[#7A2A2A] font-mono text-sm tracking-widest uppercase font-semibold">Trusted By</h2>
+          <h2 className="text-[#7A2A2A] font-mono text-sm tracking-widest uppercase font-heading font-semibold">Trusted By</h2>
           <div className="h-px w-12 bg-[#7A2A2A]" />
         </div>
       </div>

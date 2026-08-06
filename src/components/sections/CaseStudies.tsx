@@ -56,7 +56,7 @@ const CaseBlock: React.FC<{ data: typeof cases[0], onInView: (id: number) => voi
         <div className="w-2 h-2 rounded-full bg-[#E8A33D]" />
         <span className="font-mono text-sm uppercase tracking-widest text-[#8C877A]">{data.client}</span>
       </div>
-      <h3 className="text-4xl md:text-5xl font-heading text-[#F3EEE2] mb-6 leading-tight">
+      <h3 className="font-heading text-4xl md:text-5xl font-heading text-[#F3EEE2] mb-6 leading-tight">
         {data.title}
       </h3>
       <p className="text-lg text-[#8C877A] leading-relaxed mb-8 max-w-xl">
@@ -82,7 +82,7 @@ export default function CaseStudies() {
         <div className="md:hidden py-24 space-y-24">
           <div className="flex items-center gap-4 mb-8">
             <div className="h-px w-12 bg-[#7A2A2A]" />
-            <h2 className="text-[#7A2A2A] font-mono text-sm tracking-widest uppercase font-semibold">Selected Work</h2>
+            <h2 className="text-[#7A2A2A] font-mono text-sm tracking-widest uppercase font-heading font-semibold">Selected Work</h2>
           </div>
           {cases.map((c) => (
             <div key={c.id} className="flex flex-col gap-6">
@@ -108,7 +108,7 @@ export default function CaseStudies() {
           <div className="w-1/2 pr-16 py-32">
             <div className="flex items-center gap-4 mb-16">
               <div className="h-px w-12 bg-[#7A2A2A]" />
-              <h2 className="text-[#7A2A2A] font-mono text-sm tracking-widest uppercase font-semibold">Selected Work</h2>
+              <h2 className="text-[#7A2A2A] font-mono text-sm tracking-widest uppercase font-heading font-semibold">Selected Work</h2>
             </div>
             
             <div className="pb-32">

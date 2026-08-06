@@ -45,7 +45,7 @@ export default function PricingSection() {
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="text-center mb-16">
           <p className="font-mono text-sm tracking-widest uppercase text-foreground/60 mb-4">[ Plans ]</p>
-          <h2 className="text-4xl md:text-5xl font-heading mb-6">Simple, transparent pricing.</h2>
+          <h2 className="font-heading text-4xl md:text-5xl font-heading mb-6">Simple, transparent pricing.</h2>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

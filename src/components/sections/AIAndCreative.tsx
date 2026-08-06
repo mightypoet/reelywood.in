@@ -14,7 +14,7 @@ export default function AIAndCreative() {
             transition={{ duration: 0.8 }}
           >
             <p className="font-mono text-sm tracking-widest uppercase text-maroon mb-6">[ The Edge ]</p>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading mb-6 leading-tight">
+            <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-heading mb-6 leading-tight">
               Human Taste. <br/>
               <span className="italic font-light">Machine Scale.</span>
             </h2>

@@ -5,6 +5,13 @@ import { Play, ArrowUpRight, X, TrendingUp } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 
+type Brand = {
+  id: string;
+  name: string;
+  description?: string;
+  cover_image?: string;
+};
+
 type Project = {
   id: string;
   title: string;
@@ -25,13 +32,14 @@ type Project = {
 
 type BrandGroup = {
   name: string;
-  coverImage: string;
+  coverImage?: string;
   coverType: 'image' | 'video' | 'chart';
   projects: Project[];
 };
 
 export default function Portfolio({ limit }: { limit?: number }) {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [brands, setBrands] = useState<Brand[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedBrand, setSelectedBrand] = useState<BrandGroup | null>(null);
 
@@ -55,16 +63,22 @@ export default function Portfolio({ limit }: { limit?: number }) {
     
     // Fetch all categories concurrently with joined brand data
     const [
+      brandsRes,
       creativeRes,
       aigcRes,
       influencerRes,
       performanceRes
     ] = await Promise.all([
+      supabase.from('brands').select('id, name, description, cover_image'),
       supabase.from('creative_studio').select('*, brands(name)'),
       supabase.from('aigc').select('*, brands(name)'),
       supabase.from('influencer_marketing').select('*, brands(name)'),
       supabase.from('performance_marketing').select('*, brands(name)')
     ]);
+
+    if (brandsRes.data) {
+      setBrands(brandsRes.data);
+    }
 
     const formattedProjects: Project[] = [];
 
@@ -133,12 +147,14 @@ export default function Portfolio({ limit }: { limit?: number }) {
     });
     
     let result = Object.entries(groups).map(([name, brandProjects]) => {
+      const brandRecord = brands.find(b => b.name === name);
+      const coverImage = brandRecord?.cover_image || '';
+      
       const coverProject = brandProjects.find(p => p.media_type === 'image') 
         || brandProjects.find(p => p.media_type === 'video') 
         || brandProjects[0];
         
-      const coverImage = coverProject?.media_url || '';
-      const coverType = coverProject?.media_type || 'image';
+      const coverType = 'image'; // Always treat brand cover as image based on prompt
         
       return {
         name,
@@ -152,7 +168,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
       result = result.slice(0, limit);
     }
     return result;
-  }, [projects, limit]);
+  }, [projects, limit, brands]);
 
   return (
     <section id="portfolio" className="py-24 relative bg-background overflow-hidden">
@@ -213,27 +229,19 @@ export default function Portfolio({ limit }: { limit?: number }) {
                   onClick={() => setSelectedBrand(brand)}
                   className="group cursor-pointer relative overflow-hidden rounded-2xl aspect-[4/3] bg-foreground/5"
                 >
-                  {brand.coverType === 'video' ? (
-                    <video 
-                      src={brand.coverImage} 
-                      loop
-                      muted
-                      playsInline
-                      onMouseEnter={(e) => e.currentTarget.play()}
-                      onMouseLeave={(e) => e.currentTarget.pause()}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                  ) : (
+                  {brand.coverImage ? (
                     <img 
                       src={brand.coverImage} 
                       alt={brand.name} 
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
+                  ) : (
+                    <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-zinc-800 to-zinc-900 transition-transform duration-700 group-hover:scale-105" />
                   )}
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/50 transition-colors duration-500" />
                   
                   <div className="absolute inset-0 p-8 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <h3 className="text-3xl md:text-4xl font-heading font-bold text-white mb-4 tracking-tight text-center">{brand.name}</h3>
+                    <h3 className="text-3xl md:font-heading text-4xl font-heading font-bold text-white mb-4 tracking-tight text-center">{brand.name}</h3>
                     <span className="px-6 py-2 bg-white/20 backdrop-blur-md text-white rounded-full text-sm font-medium border border-white/30 flex items-center gap-2">
                       View Project <ArrowUpRight size={16} />
                     </span>

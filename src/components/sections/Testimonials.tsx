@@ -27,7 +27,7 @@ export default function Testimonials() {
     <section className="py-24 bg-cream text-ink border-b border-ink/10">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="mb-16">
-          <h2 className="text-4xl md:text-5xl font-heading mb-4">Client Success</h2>
+          <h2 className="font-heading text-4xl md:text-5xl font-heading mb-4">Client Success</h2>
           <p className="font-mono text-sm tracking-widest uppercase text-ink/60">[ What they say ]</p>
         </div>
         

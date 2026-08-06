@@ -12,7 +12,7 @@ export default function TeamSection() {
     <section className="py-24 bg-background text-foreground border-b border-border">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="mb-16">
-          <h2 className="text-4xl md:text-5xl font-heading mb-4">The Team</h2>
+          <h2 className="font-heading text-4xl md:text-5xl font-heading mb-4">The Team</h2>
           <p className="font-mono text-sm tracking-widest uppercase text-foreground/60">[ Leadership ]</p>
         </div>
         

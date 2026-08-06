@@ -9,7 +9,7 @@ export default function FeaturedClients() {
   return (
     <section className="py-20 bg-cream text-ink relative z-10 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row justify-between items-center gap-6">
-        <h2 className="text-3xl md:text-4xl font-heading">Worked With</h2>
+        <h2 className="text-3xl md:font-heading text-4xl font-heading">Worked With</h2>
         <p className="font-mono text-sm tracking-widest uppercase text-ink/60">[ Selected Partners ]</p>
       </div>
       

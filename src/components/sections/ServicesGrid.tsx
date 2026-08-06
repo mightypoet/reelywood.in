@@ -43,9 +43,9 @@ export default function ServicesGrid() {
           <div>
             <div className="flex items-center gap-4 mb-6">
               <div className="h-px w-12 bg-[#7A2A2A]" />
-              <h2 className="text-[#7A2A2A] font-mono text-sm tracking-widest uppercase font-semibold">Capabilities</h2>
+              <h2 className="text-[#7A2A2A] font-mono text-sm tracking-widest uppercase font-heading font-semibold">Capabilities</h2>
             </div>
-            <h3 className="text-4xl md:text-5xl font-heading text-[#F3EEE2] leading-tight max-w-2xl">
+            <h3 className="font-heading text-4xl md:text-5xl font-heading text-[#F3EEE2] leading-tight max-w-2xl">
               Everything you need to capture attention and convert it.
             </h3>
           </div>
