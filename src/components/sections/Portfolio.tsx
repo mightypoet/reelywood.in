@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, ArrowUpRight, X, TrendingUp } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
@@ -157,7 +158,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
   }, [projects, limit]);
 
   return (
-    <section id="portfolio" className="py-24 relative z-10 bg-background overflow-hidden">
+    <section id="portfolio" className="py-24 relative bg-background overflow-hidden">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="flex flex-col md:flex-row md:items-start justify-between mb-20 gap-8 relative">
           <div className="hidden md:block absolute -left-12 top-4 text-foreground/50 text-sm font-medium">
@@ -248,8 +249,9 @@ export default function Portfolio({ limit }: { limit?: number }) {
       </div>
 
             {/* Adaptive Gallery Modal */}
-      <AnimatePresence>
-        {selectedBrand && (
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {selectedBrand && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -262,7 +264,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-7xl h-full flex flex-col bg-zinc-950 rounded-2xl border border-zinc-800 overflow-hidden"
+              className="relative w-full max-w-7xl h-full max-h-full min-h-0 flex flex-col bg-zinc-950 rounded-2xl border border-zinc-800 overflow-hidden"
             >
               {/* Sticky Header */}
               <div className="flex-none flex justify-between items-center p-6 bg-zinc-950 border-b border-zinc-800 z-10">
@@ -278,7 +280,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto overscroll-contain p-6">
+              <div className="flex-1 overflow-y-auto overscroll-contain min-h-0 p-6">
                 <div className="max-w-[1400px] mx-auto space-y-24">
                 
                 {/* Visual Media Gallery */}
@@ -420,8 +422,10 @@ export default function Portfolio({ limit }: { limit?: number }) {
             </div>
             </motion.div>
           </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   );
 }
