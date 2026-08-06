@@ -40,11 +40,14 @@ export default function Portfolio({ limit }: { limit?: number }) {
   useEffect(() => {
     if (selectedBrand) {
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     }
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, [selectedBrand]);
 
@@ -258,7 +261,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-6">
+              <div className="flex-1 overflow-y-auto overscroll-contain p-6">
                 <div className="max-w-[1400px] mx-auto space-y-24">
                 
                 {/* Visual Media Gallery */}

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { LayoutDashboard, Palette, Video, Users, TrendingUp, Settings, LogOut, Plus, Check, X } from 'lucide-react';
+import { Briefcase, Settings, LogOut, Plus, Check, X, ChevronRight, Save } from 'lucide-react';
 
 import CreativeStudioManager from '../components/admin/CreativeStudioManager';
 import AIGCManager from '../components/admin/AIGCManager';
 import InfluencerManager from '../components/admin/InfluencerManager';
 import PerformanceManager from '../components/admin/PerformanceManager';
+import MediaUploader from '../components/admin/MediaUploader';
 
 export default function Admin() {
   const [session, setSession] = useState<any>(null);
@@ -13,25 +14,24 @@ export default function Admin() {
   const [password, setPassword] = useState('rohan@9123');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState('brands');
 
   const [brands, setBrands] = useState<any[]>([]);
   const [selectedBrandId, setSelectedBrandId] = useState<string | null>(null);
-  const [isAddingBrand, setIsAddingBrand] = useState(false);
-  const [newBrandName, setNewBrandName] = useState('');
   
+  // Brand Editing State
+  const [brandName, setBrandName] = useState('');
+  const [brandDesc, setBrandDesc] = useState('');
+  const [brandCover, setBrandCover] = useState('');
+
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setLoading(false);
     });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
-
     return () => subscription.unsubscribe();
   }, []);
 
@@ -45,23 +45,6 @@ export default function Admin() {
     const { data } = await supabase.from('brands').select('*').order('name');
     if (data) {
       setBrands(data);
-      if (!selectedBrandId && data.length > 0) {
-        setSelectedBrandId(data[0].id);
-      }
-    }
-  };
-
-  const handleAddBrand = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newBrandName.trim()) return;
-    const { data, error } = await supabase.from('brands').insert([{ name: newBrandName.trim() }]).select();
-    if (!error && data && data.length > 0) {
-      setBrands([...brands, data[0]]);
-      setSelectedBrandId(data[0].id);
-      setNewBrandName('');
-      setIsAddingBrand(false);
-    } else if (error) {
-      console.error(error.message);
     }
   };
 
@@ -69,15 +52,8 @@ export default function Admin() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      setError(error.message);
-    }
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) setError(error.message);
     setLoading(false);
   };
 
@@ -86,48 +62,59 @@ export default function Admin() {
     setSession(null);
   };
   
-  if (loading && !session) {
-    return <div className="min-h-screen flex items-center justify-center bg-slate-50">Loading...</div>;
-  }
+  const handleSelectBrand = (b: any) => {
+    setSelectedBrandId(b.id);
+    setBrandName(b.name || '');
+    setBrandDesc(b.description || '');
+    setBrandCover(b.cover_image || '');
+  };
+
+  const handleCreateNewBrand = () => {
+    setSelectedBrandId('new');
+    setBrandName('');
+    setBrandDesc('');
+    setBrandCover('');
+  };
+
+  const handleSaveBrand = async () => {
+    if (!brandName.trim()) return;
+    const payload = { name: brandName, description: brandDesc, cover_image: brandCover };
+    
+    if (selectedBrandId === 'new') {
+      const { data, error } = await supabase.from('brands').insert([payload]).select();
+      if (!error && data && data.length > 0) {
+        setBrands([...brands, data[0]]);
+        handleSelectBrand(data[0]);
+      }
+    } else {
+      const { error } = await supabase.from('brands').update(payload).eq('id', selectedBrandId);
+      if (!error) {
+        fetchBrands();
+      }
+    }
+  };
+
+  if (loading && !session) return <div className="min-h-screen flex items-center justify-center bg-zinc-950 text-white">Loading...</div>;
 
   if (!session) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="bg-white p-8 rounded-3xl shadow-xl shadow-slate-200/50 max-w-md w-full border border-slate-100">
+      <div className="min-h-screen flex items-center justify-center bg-zinc-950 text-white p-4">
+        <div className="bg-zinc-900 p-8 rounded-3xl shadow-xl border border-zinc-800 max-w-md w-full">
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold font-sans tracking-tight text-slate-900">Reelywood Studio</h1>
-            <p className="text-slate-500 mt-2">Admin Dashboard Login</p>
+            <h1 className="text-2xl font-bold tracking-tight">Reelywood Studio</h1>
+            <p className="text-zinc-400 mt-2">Admin Dashboard</p>
           </div>
-          
           <form onSubmit={handleLogin} className="space-y-4">
-            {error && <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm">{error}</div>}
+            {error && <div className="bg-red-900/50 text-red-400 p-3 rounded-lg text-sm border border-red-800">{error}</div>}
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
-              <input 
-                type="email" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="info@reelywood.com" 
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" 
-                required
-              />
+              <label className="block text-sm font-medium text-zinc-300 mb-1">Email</label>
+              <input type="email" value={email} onChange={e => setEmail(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-zinc-800 bg-zinc-950 focus:outline-none focus:ring-2 focus:ring-white transition-all text-white" required />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Password</label>
-              <input 
-                type="password" 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••" 
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all" 
-                required
-              />
+              <label className="block text-sm font-medium text-zinc-300 mb-1">Password</label>
+              <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-zinc-800 bg-zinc-950 focus:outline-none focus:ring-2 focus:ring-white transition-all text-white" required />
             </div>
-            <button 
-              type="submit"
-              disabled={loading}
-              className="w-full bg-slate-900 text-white font-medium py-3 rounded-xl hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/20 active:scale-95 disabled:opacity-50"
-            >
+            <button type="submit" disabled={loading} className="w-full bg-white text-black font-bold py-3 rounded-xl hover:bg-zinc-200 transition-all active:scale-95 disabled:opacity-50">
               {loading ? 'Signing In...' : 'Sign In'}
             </button>
           </form>
@@ -137,31 +124,21 @@ export default function Admin() {
   }
 
   const sidebarItems = [
-    { icon: LayoutDashboard, id: 'overview', label: 'Overview' },
-    { icon: Palette, id: 'creative', label: 'Creative Studio' },
-    { icon: Video, id: 'aigc', label: 'AIGC Videos' },
-    { icon: Users, id: 'influencer', label: 'Influencer' },
-    { icon: TrendingUp, id: 'performance', label: 'Performance' },
+    { icon: Briefcase, id: 'brands', label: 'Brands' },
     { icon: Settings, id: 'settings', label: 'Settings' },
   ];
 
-  const selectedBrandName = brands.find(b => b.id === selectedBrandId)?.name || '';
-
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row">
+    <div className="min-h-screen bg-zinc-950 flex flex-col md:flex-row text-white dark">
       {/* Sidebar */}
-      <aside className="w-full md:w-64 bg-white border-b md:border-b-0 md:border-r border-slate-200 flex flex-col shrink-0">
-        <div className="p-4 md:p-6 border-b border-slate-100 flex justify-between items-center md:block">
+      <aside className="w-full md:w-64 bg-zinc-900 border-b md:border-b-0 md:border-r border-zinc-800 flex flex-col shrink-0">
+        <div className="p-4 md:p-6 border-b border-zinc-800 flex justify-between items-center md:block">
           <div>
             <h1 className="text-xl font-bold tracking-tight">Reelywood.</h1>
-            <span className="text-[10px] md:text-xs font-medium px-2 py-1 bg-indigo-50 text-indigo-600 rounded-full md:mt-2 inline-block">Admin CMS</span>
+            <span className="text-[10px] md:text-xs font-medium px-2 py-1 bg-white/10 text-zinc-300 rounded-full md:mt-2 inline-block">Admin CMS</span>
           </div>
-          <button 
-            onClick={handleLogout}
-            className="md:hidden flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-all"
-          >
-            <LogOut size={16} />
-            Sign Out
+          <button onClick={handleLogout} className="md:hidden p-2 rounded-lg text-zinc-400 hover:bg-zinc-800 transition-all">
+            <LogOut size={20} />
           </button>
         </div>
         
@@ -169,24 +146,19 @@ export default function Admin() {
           {sidebarItems.map((item) => (
             <button 
               key={item.id} 
-              onClick={() => setActiveTab(item.id)}
+              onClick={() => { setActiveTab(item.id); setSelectedBrandId(null); }}
               className={`flex items-center gap-2 md:gap-3 px-4 py-3 rounded-xl text-left text-sm font-medium transition-all whitespace-nowrap ${
-                activeTab === item.id 
-                  ? 'bg-slate-900 text-white shadow-md' 
-                  : 'text-slate-600 hover:bg-slate-100'
+                activeTab === item.id ? 'bg-white text-black shadow-md' : 'text-zinc-400 hover:bg-zinc-800 hover:text-white'
               }`}
             >
-              <item.icon size={18} className={`shrink-0 ${activeTab === item.id ? 'text-white' : 'text-slate-400'}`} />
+              <item.icon size={18} className="shrink-0" />
               {item.label}
             </button>
           ))}
         </nav>
         
-        <div className="hidden md:block p-4 border-t border-slate-100">
-          <button 
-            onClick={handleLogout}
-            className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-left text-sm font-medium text-red-600 hover:bg-red-50 transition-all"
-          >
+        <div className="hidden md:block p-4 border-t border-zinc-800">
+          <button onClick={handleLogout} className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-left text-sm font-medium text-zinc-400 hover:bg-zinc-800 hover:text-white transition-all">
             <LogOut size={18} />
             Sign Out
           </button>
@@ -194,83 +166,142 @@ export default function Admin() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto p-4 md:p-8">
-        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 bg-white p-4 rounded-3xl shadow-sm border border-slate-200">
-          <div>
-            <h2 className="text-2xl font-bold text-slate-900">
-              {sidebarItems.find(i => i.id === activeTab)?.label || 'Dashboard Overview'}
-            </h2>
-            <p className="text-slate-500 text-sm md:text-base">Manage your agency's portfolio and campaigns.</p>
-          </div>
-          
-          <div className="flex gap-4 items-center w-full md:w-auto overflow-x-auto pb-2 md:pb-0 no-scrollbar">
-            {/* Global Brand Selector */}
-            <div className="flex items-center gap-3 pr-4 md:border-r border-slate-200 whitespace-nowrap shrink-0">
-              <span className="text-sm font-medium text-slate-500">Active Brand:</span>
-              {isAddingBrand ? (
-                <form onSubmit={handleAddBrand} className="flex items-center gap-1">
-                  <input 
-                    type="text" 
-                    value={newBrandName} 
-                    onChange={e => setNewBrandName(e.target.value)} 
-                    placeholder="New Brand Name" 
-                    className="px-3 py-1.5 text-sm rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 w-40"
-                    autoFocus
-                  />
-                  <button type="submit" className="p-1.5 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600"><Check size={16} /></button>
-                  <button type="button" onClick={() => setIsAddingBrand(false)} className="p-1.5 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300"><X size={16} /></button>
-                </form>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <select 
-                    value={selectedBrandId || ''} 
-                    onChange={e => setSelectedBrandId(e.target.value)}
-                    className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-900 focus:outline-none"
-                  >
-                    {brands.length === 0 && <option value="">No Brands Available</option>}
-                    {brands.map(b => <option key={b.id} value={b.id}>{b.name}</option>)}
-                  </select>
-                  <button onClick={() => setIsAddingBrand(true)} className="p-1.5 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100" title="Add New Brand">
-                    <Plus size={16} />
+      <main className="flex-1 overflow-y-auto">
+        {activeTab === 'brands' && (
+          <div className="flex flex-col h-full">
+            {/* Brands Header / List */}
+            {!selectedBrandId ? (
+              <div className="p-8 max-w-6xl mx-auto w-full">
+                <div className="flex justify-between items-center mb-8">
+                  <h2 className="text-3xl font-bold">Brand Portfolio</h2>
+                  <button onClick={handleCreateNewBrand} className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-lg font-medium hover:bg-zinc-200 transition-colors">
+                    <Plus size={18} /> New Brand
                   </button>
                 </div>
-              )}
-            </div>
-
-            <a href="/" target="_blank" className="bg-white px-5 py-2.5 rounded-full text-sm font-medium border border-slate-200 shadow-sm hover:shadow-md transition-all">
-              View Site
-            </a>
-          </div>
-        </header>
-
-        {/* Tab Content Routing */}
-        {activeTab === 'overview' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {[
-              { label: 'Creative Assets', value: '42', trend: '+12% this month' },
-              { label: 'AIGC Videos', value: '18', trend: '+3 this week' },
-              { label: 'Influencer Campaigns', value: '8', trend: 'Active now' },
-              { label: 'Storage Used', value: '45.2 GB', trend: 'Of 100GB plan' },
-            ].map((stat, i) => (
-              <div key={i} className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 relative overflow-hidden group">
-                <div className="relative z-10">
-                  <p className="text-slate-500 text-sm font-medium mb-1">{stat.label}</p>
-                  <h3 className="text-3xl font-bold text-slate-900 mb-2">{stat.value}</h3>
-                  <p className="text-emerald-600 text-xs font-medium">{stat.trend}</p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {brands.map(b => (
+                    <div 
+                      key={b.id} 
+                      onClick={() => handleSelectBrand(b)}
+                      className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 cursor-pointer hover:border-zinc-600 transition-colors group flex flex-col"
+                    >
+                      {b.cover_image && (
+                        <div className="w-full h-32 rounded-xl overflow-hidden mb-4 bg-zinc-800">
+                          <img src={b.cover_image} alt={b.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        </div>
+                      )}
+                      <h3 className="text-xl font-bold mb-2">{b.name}</h3>
+                      {b.description && <p className="text-sm text-zinc-400 line-clamp-2">{b.description}</p>}
+                      <div className="mt-auto pt-4 flex items-center text-sm font-medium text-zinc-500 group-hover:text-white transition-colors">
+                        Manage Assets <ChevronRight size={16} className="ml-1" />
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="absolute -right-6 -bottom-6 w-24 h-24 bg-slate-50 rounded-full group-hover:scale-150 transition-transform duration-500 z-0"></div>
               </div>
-            ))}
+            ) : (
+              /* Nested Brand Dashboard */
+              <div className="p-4 md:p-8 max-w-6xl mx-auto w-full space-y-8">
+                <button onClick={() => setSelectedBrandId(null)} className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors text-sm font-medium mb-4">
+                  <ChevronRight size={16} className="rotate-180" /> Back to Brands
+                </button>
+                
+                <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 md:p-8">
+                  <div className="flex justify-between items-start mb-6">
+                    <h2 className="text-2xl font-bold">{selectedBrandId === 'new' ? 'Create New Brand' : 'Edit Brand'}</h2>
+                    <button onClick={handleSaveBrand} className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-lg font-medium hover:bg-zinc-200 transition-colors">
+                      <Save size={18} /> Save Brand
+                    </button>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-zinc-400 mb-1">Brand Name</label>
+                        <input type="text" value={brandName} onChange={e => setBrandName(e.target.value)} className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-zinc-600" placeholder="e.g. Nike" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-zinc-400 mb-1">Description (Optional)</label>
+                        <textarea value={brandDesc} onChange={e => setBrandDesc(e.target.value)} className="w-full bg-zinc-950 border border-zinc-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-zinc-600 min-h-[120px]" placeholder="Brief description of the brand..." />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-zinc-400 mb-2">Cover Image</label>
+                      {brandCover ? (
+                        <div className="relative rounded-xl overflow-hidden border border-zinc-800 group">
+                          <img src={brandCover} alt="Cover" className="w-full h-48 object-cover" />
+                          <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button onClick={() => setBrandCover('')} className="bg-red-500 text-white p-2 rounded-full hover:bg-red-600">
+                              <X size={20} />
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="h-48 rounded-xl border border-zinc-800 bg-zinc-950 flex flex-col items-center justify-center overflow-hidden">
+                          <MediaUploader onUploadSuccess={urls => setBrandCover(urls[0])} acceptedTypes="image/*" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {selectedBrandId !== 'new' && (
+                  <div className="space-y-6">
+                    <h3 className="text-xl font-bold pt-4 border-t border-zinc-800">Manage Assets</h3>
+                    
+                    <details className="bg-zinc-900 border border-zinc-800 rounded-2xl group overflow-hidden">
+                      <summary className="p-6 font-bold cursor-pointer flex justify-between items-center hover:bg-zinc-800/50 transition-colors">
+                        Creative Studio (Images & Video)
+                        <ChevronRight className="transform group-open:rotate-90 transition-transform" />
+                      </summary>
+                      <div className="p-6 border-t border-zinc-800 bg-zinc-950/50">
+                        <CreativeStudioManager brandId={selectedBrandId} />
+                      </div>
+                    </details>
+                    
+                    <details className="bg-zinc-900 border border-zinc-800 rounded-2xl group overflow-hidden">
+                      <summary className="p-6 font-bold cursor-pointer flex justify-between items-center hover:bg-zinc-800/50 transition-colors">
+                        AIGC Videos (Reels & Shorts)
+                        <ChevronRight className="transform group-open:rotate-90 transition-transform" />
+                      </summary>
+                      <div className="p-6 border-t border-zinc-800 bg-zinc-950/50">
+                        <AIGCManager brandId={selectedBrandId} />
+                      </div>
+                    </details>
+                    
+                    <details className="bg-zinc-900 border border-zinc-800 rounded-2xl group overflow-hidden">
+                      <summary className="p-6 font-bold cursor-pointer flex justify-between items-center hover:bg-zinc-800/50 transition-colors">
+                        Influencer Marketing
+                        <ChevronRight className="transform group-open:rotate-90 transition-transform" />
+                      </summary>
+                      <div className="p-6 border-t border-zinc-800 bg-zinc-950/50">
+                        <InfluencerManager brandId={selectedBrandId} brandName={brandName} />
+                      </div>
+                    </details>
+                    
+                    <details className="bg-zinc-900 border border-zinc-800 rounded-2xl group overflow-hidden">
+                      <summary className="p-6 font-bold cursor-pointer flex justify-between items-center hover:bg-zinc-800/50 transition-colors">
+                        Performance Stats
+                        <ChevronRight className="transform group-open:rotate-90 transition-transform" />
+                      </summary>
+                      <div className="p-6 border-t border-zinc-800 bg-zinc-950/50">
+                        <PerformanceManager brandId={selectedBrandId} />
+                      </div>
+                    </details>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
 
-        {activeTab === 'creative' && <CreativeStudioManager brandId={selectedBrandId} />}
-        {activeTab === 'aigc' && <AIGCManager brandId={selectedBrandId} />}
-        {activeTab === 'influencer' && <InfluencerManager brandId={selectedBrandId} brandName={selectedBrandName} />}
-        {activeTab === 'performance' && <PerformanceManager brandId={selectedBrandId} />}
         {activeTab === 'settings' && (
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-            <p className="text-slate-500 text-sm">Settings panel coming soon.</p>
+          <div className="p-8 max-w-4xl">
+            <h2 className="text-2xl font-bold mb-6">Settings</h2>
+            <div className="bg-zinc-900 p-6 rounded-2xl border border-zinc-800 text-zinc-400">
+              Settings panel coming soon.
+            </div>
           </div>
         )}
       </main>
