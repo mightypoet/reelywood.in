@@ -234,11 +234,18 @@ export default function Portfolio({ limit }: { limit?: number }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[99999] w-full h-full overflow-y-auto bg-black/95 backdrop-blur-xl"
+            className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/95 p-4 backdrop-blur-xl"
+            onClick={() => setSelectedBrand(null)}
           >
-            <div className="min-h-full flex flex-col">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-7xl max-h-[90vh] overflow-y-auto bg-zinc-950 rounded-2xl shadow-2xl border border-zinc-800 flex flex-col"
+            >
               {/* Sticky Header */}
-              <div className="sticky top-0 z-50 flex justify-between items-center p-6 bg-black/80 backdrop-blur-md border-b border-white/10 shadow-sm">
+              <div className="sticky top-0 z-50 flex justify-between items-center p-6 bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800 shadow-sm">
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white">{selectedBrand.name}</h2>
                   <p className="text-sm text-white/60 font-medium">Selected Works & Performance</p>
@@ -390,7 +397,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
                 
               </div>
             </div>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
