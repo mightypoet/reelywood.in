@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { Briefcase, Settings, LogOut, Plus, Check, X, ChevronRight, Save } from 'lucide-react';
+import { Briefcase, Settings, LogOut, Plus, Check, X, ChevronRight, Save, Edit2, Trash2 } from 'lucide-react';
 
 import CreativeStudioManager from '../components/admin/CreativeStudioManager';
 import AIGCManager from '../components/admin/AIGCManager';
@@ -85,11 +85,28 @@ export default function Admin() {
       if (!error && data && data.length > 0) {
         setBrands([...brands, data[0]]);
         handleSelectBrand(data[0]);
+      } else if (error) {
+        console.error("Error creating brand:", error);
       }
     } else {
       const { error } = await supabase.from('brands').update(payload).eq('id', selectedBrandId);
       if (!error) {
         fetchBrands();
+        // Optional: show success toast or message here
+      } else {
+        console.error("Error updating brand:", error);
+      }
+    }
+  };
+
+  const handleDeleteBrand = async (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    if (window.confirm('Are you sure you want to delete this brand?')) {
+      const { error } = await supabase.from('brands').delete().eq('id', id);
+      if (error) {
+        console.error("Error deleting brand:", error);
+      } else {
+        setBrands(brands.filter(b => b.id !== id));
       }
     }
   };
@@ -184,14 +201,31 @@ export default function Admin() {
                     <div 
                       key={b.id} 
                       onClick={() => handleSelectBrand(b)}
-                      className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 cursor-pointer hover:border-zinc-600 transition-colors group flex flex-col"
+                      className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 cursor-pointer hover:border-zinc-600 transition-colors group flex flex-col relative"
                     >
+                      <div className="absolute top-4 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                        <button 
+                          onClick={(e) => { e.stopPropagation(); handleSelectBrand(b); }}
+                          className="p-2 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-colors"
+                          title="Edit"
+                        >
+                          <Edit2 size={16} />
+                        </button>
+                        <button 
+                          onClick={(e) => handleDeleteBrand(e, b.id)}
+                          className="p-2 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-colors"
+                          title="Delete"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      </div>
+                      
                       {b.cover_image && (
                         <div className="w-full h-32 rounded-xl overflow-hidden mb-4 bg-zinc-800">
                           <img src={b.cover_image} alt={b.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                       )}
-                      <h3 className="text-xl font-bold mb-2">{b.name}</h3>
+                      <h3 className="text-xl font-bold mb-2 pr-16">{b.name}</h3>
                       {b.description && <p className="text-sm text-zinc-400 line-clamp-2">{b.description}</p>}
                       <div className="mt-auto pt-4 flex items-center text-sm font-medium text-zinc-500 group-hover:text-white transition-colors">
                         Manage Assets <ChevronRight size={16} className="ml-1" />
