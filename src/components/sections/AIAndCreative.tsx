@@ -14,7 +14,7 @@ export default function AIAndCreative() {
             transition={{ duration: 0.8 }}
           >
             <p className="font-mono text-sm tracking-widest uppercase text-maroon mb-6">[ The Edge ]</p>
-            <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-heading mb-6 leading-tight">
+            <h2 className="font-extrabold font-heading text-4xl md:text-5xl lg:text-6xl font-heading mb-6 leading-tight">
               Human Taste. <br/>
               <span className="italic font-light">Machine Scale.</span>
             </h2>
@@ -48,7 +48,7 @@ export default function AIAndCreative() {
              {/* Abstract AI/Creative visualization placeholder */}
              <div className="relative z-10 w-full h-full border border-border/20 rounded-sm flex flex-col items-center justify-center p-12 text-center">
                 <Brain size={48} className="text-gold mb-6" />
-                <h3 className="font-heading text-2xl text-cream mb-2">Proprietary Engine</h3>
+                <h3 className="font-extrabold font-heading text-2xl text-cream mb-2">Proprietary Engine</h3>
                 <p className="font-mono text-xs text-cream/50 uppercase tracking-widest">Processing Creative Variables</p>
              </div>
           </motion.div>

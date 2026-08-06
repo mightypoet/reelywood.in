@@ -24,7 +24,7 @@ export default function AboutStats() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="text-3xl md:text-5xl font-heading leading-tight mb-8"
+              className="font-extrabold text-3xl md:text-5xl font-heading leading-tight mb-8"
             >
               We engineer predictable growth through AIGC and automated systems.
             </motion.h2>

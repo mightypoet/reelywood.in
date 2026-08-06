@@ -75,7 +75,7 @@ export default function Pricing() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-heading tracking-tighter text-foreground mb-8 leading-[0.95]"
+            className="font-extrabold text-5xl md:text-7xl lg:text-8xl font-heading tracking-tighter text-foreground mb-8 leading-[0.95]"
           >
             Transparent pricing for <br className="hidden md:block"/> creative & software.
           </motion.h1>

@@ -11,7 +11,7 @@ export default function FinalCTA() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-5xl md:text-7xl font-heading mb-8 leading-tight"
+          className="font-extrabold text-5xl md:text-7xl font-heading mb-8 leading-tight"
         >
           Ready to scale <br/>
           <span className="italic font-light">your brand?</span>

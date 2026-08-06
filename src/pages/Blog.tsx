@@ -7,7 +7,7 @@ export default function Blog() {
     <div className="min-h-screen pt-32 pb-12 px-6 flex flex-col justify-between">
       <Navbar />
       <div className="max-w-7xl mx-auto w-full flex-grow">
-        <h1 className="text-4xl font-bold mb-6">Blog</h1>
+        <h1 className="font-extrabold text-4xl mb-6">Blog</h1>
         <p>Blog coming soon...</p>
       </div>
       <Footer />

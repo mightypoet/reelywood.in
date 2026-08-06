@@ -183,7 +183,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-6xl md:text-8xl lg:text-[120px] font-heading font-bold tracking-tighter text-foreground mb-2 leading-[0.9]"
+              className="font-extrabold text-6xl md:text-8xl lg:text-[120px] font-heading tracking-tighter text-foreground mb-2 leading-[0.9]"
             >
               Case<br />Studies.
             </motion.h2>
@@ -241,7 +241,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/50 transition-colors duration-500" />
                   
                   <div className="absolute inset-0 p-8 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <h3 className="text-3xl md:font-heading text-4xl font-heading font-bold text-white mb-4 tracking-tight text-center">{brand.name}</h3>
+                    <h3 className="font-extrabold text-3xl md:font-heading text-4xl font-heading text-white mb-4 tracking-tight text-center">{brand.name}</h3>
                     <span className="px-6 py-2 bg-white/20 backdrop-blur-md text-white rounded-full text-sm font-medium border border-white/30 flex items-center gap-2">
                       View Project <ArrowUpRight size={16} />
                     </span>
@@ -274,7 +274,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
               {/* Sticky Header */}
               <div className="flex-none p-6 bg-zinc-950 border-b border-zinc-800 flex justify-between items-center z-10">
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight text-white">{selectedBrand.name}</h2>
+                  <h2 className="font-extrabold text-2xl md:text-3xl font-heading tracking-tight text-white">{selectedBrand.name}</h2>
                   <p className="text-sm text-white/60 font-medium">Selected Works & Performance</p>
                 </div>
                 <button 
@@ -334,7 +334,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
                 {/* Performance Dashboard */}
                 {selectedBrand.projects.filter(p => p.category === 'Performance').length > 0 && (
                   <div className="pt-12 border-t border-white/10">
-                    <h3 className="text-3xl font-heading font-bold tracking-tight text-white mb-8">Campaign Performance</h3>
+                    <h3 className="font-extrabold text-3xl font-heading tracking-tight text-white mb-8">Campaign Performance</h3>
                     
                     {selectedBrand.projects.filter(p => p.category === 'Performance').map((project, idx) => (
                       <div key={'perf-'+idx} className="space-y-8">

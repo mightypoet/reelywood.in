@@ -21,6 +21,8 @@
   
   --font-sans: 'Manrope', system-ui, sans-serif;
   --font-heading: 'Manrope', system-ui, sans-serif;
+  --font-mono: 'Manrope', system-ui, sans-serif;
+  --font-serif: 'Manrope', system-ui, sans-serif;
 }
 
 body {
@@ -28,6 +30,10 @@ body {
   color: var(--color-foreground);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
 }
 
 .dark-section {

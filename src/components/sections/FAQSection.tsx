@@ -23,7 +23,7 @@ export default function FAQSection() {
   return (
     <section className="py-24 bg-background text-foreground">
       <div className="max-w-4xl mx-auto px-6 md:px-12">
-        <h2 className="font-heading text-4xl md:text-5xl font-heading mb-16 text-center">Questions & Answers</h2>
+        <h2 className="font-extrabold font-heading text-4xl md:text-5xl font-heading mb-16 text-center">Questions & Answers</h2>
         
         <div className="space-y-4">
           {faqs.map((faq, idx) => (

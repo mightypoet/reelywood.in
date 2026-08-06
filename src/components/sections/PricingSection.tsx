@@ -45,7 +45,7 @@ export default function PricingSection() {
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="text-center mb-16">
           <p className="font-mono text-sm tracking-widest uppercase text-foreground/60 mb-4">[ Plans ]</p>
-          <h2 className="font-heading text-4xl md:text-5xl font-heading mb-6">Simple, transparent pricing.</h2>
+          <h2 className="font-extrabold font-heading text-4xl md:text-5xl font-heading mb-6">Simple, transparent pricing.</h2>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -56,7 +56,7 @@ export default function PricingSection() {
                   Most Popular
                 </div>
               )}
-              <h3 className="font-heading text-2xl mb-2">{plan.name}</h3>
+              <h3 className="font-extrabold font-heading text-2xl mb-2">{plan.name}</h3>
               <p className="font-sans font-light text-sm text-foreground/70 mb-6 h-10">{plan.desc}</p>
               <div className="mb-8">
                 <span className="font-heading text-4xl">{plan.price}</span>

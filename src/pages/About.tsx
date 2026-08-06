@@ -27,7 +27,7 @@ export default function About() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-heading tracking-tighter text-foreground mb-8 leading-[0.95]"
+            className="font-extrabold text-5xl md:text-7xl lg:text-8xl font-heading tracking-tighter text-foreground mb-8 leading-[0.95]"
           >
             Rooted in reality. <br/>
             <span className="italic text-muted-foreground">Built for the future.</span>
@@ -49,7 +49,7 @@ export default function About() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl md:text-4xl font-heading tracking-tight mb-6">Our Mission</h2>
+            <h2 className="font-extrabold text-3xl md:text-4xl font-heading tracking-tight mb-6">Our Mission</h2>
             <p className="text-lg md:text-xl text-foreground/70 font-light leading-relaxed mb-12">
               To democratize high-performing creative and automation. By uniting human-led design with AI-generated content (AIGC) and scalable systems, we reduce friction and elevate brand resonance.
             </p>
@@ -74,7 +74,7 @@ export default function About() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="bg-primary text-primary-foreground p-10 md:p-16 flex flex-col justify-center rounded-sm"
           >
-            <h3 className="text-3xl md:text-4xl font-heading tracking-tight mb-12 text-primary-foreground">What We Do</h3>
+            <h3 className="font-extrabold text-3xl md:text-4xl font-heading tracking-tight mb-12 text-primary-foreground">What We Do</h3>
             <ul className="space-y-10">
               <li className="flex items-start gap-6">
                 <div className="mt-1">

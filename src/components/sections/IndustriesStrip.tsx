@@ -17,7 +17,7 @@ export default function IndustriesStrip() {
     <section className="py-24 bg-cream text-ink border-y border-ink/10">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="mb-16">
-          <h2 className="font-heading text-4xl md:text-5xl font-heading mb-4">Industries</h2>
+          <h2 className="font-extrabold font-heading text-4xl md:text-5xl font-heading mb-4">Industries</h2>
           <p className="font-mono text-sm tracking-widest uppercase text-ink/60">[ Domain Expertise ]</p>
         </div>
         

@@ -118,7 +118,7 @@ export default function Admin() {
       <div className="min-h-screen flex items-center justify-center bg-zinc-950 text-white p-4">
         <div className="bg-zinc-900 p-8 rounded-3xl shadow-xl border border-zinc-800 max-w-md w-full">
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold tracking-tight">Reelywood Studio</h1>
+            <h1 className="font-extrabold text-2xl tracking-tight">Reelywood Studio</h1>
             <p className="text-zinc-400 mt-2">Admin Dashboard</p>
           </div>
           <form onSubmit={handleLogin} className="space-y-4">
@@ -151,7 +151,7 @@ export default function Admin() {
       <aside className="w-full md:w-64 bg-zinc-900 border-b md:border-b-0 md:border-r border-zinc-800 flex flex-col shrink-0">
         <div className="p-4 md:p-6 border-b border-zinc-800 flex justify-between items-center md:block">
           <div>
-            <h1 className="text-xl font-bold tracking-tight">Reelywood.</h1>
+            <h1 className="font-extrabold text-xl tracking-tight">Reelywood.</h1>
             <span className="text-[10px] md:text-xs font-medium px-2 py-1 bg-white/10 text-zinc-300 rounded-full md:mt-2 inline-block">Admin CMS</span>
           </div>
           <button onClick={handleLogout} className="md:hidden p-2 rounded-lg text-zinc-400 hover:bg-zinc-800 transition-all">
@@ -190,7 +190,7 @@ export default function Admin() {
             {!selectedBrandId ? (
               <div className="p-8 max-w-6xl mx-auto w-full">
                 <div className="flex justify-between items-center mb-8">
-                  <h2 className="text-3xl font-bold">Brand Portfolio</h2>
+                  <h2 className="font-extrabold text-3xl ">Brand Portfolio</h2>
                   <button onClick={handleCreateNewBrand} className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-lg font-medium hover:bg-zinc-200 transition-colors">
                     <Plus size={18} /> New Brand
                   </button>
@@ -225,7 +225,7 @@ export default function Admin() {
                           <img src={b.cover_image} alt={b.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                       )}
-                      <h3 className="text-xl font-bold mb-2 pr-16">{b.name}</h3>
+                      <h3 className="font-extrabold text-xl mb-2 pr-16">{b.name}</h3>
                       {b.description && <p className="text-sm text-zinc-400 line-clamp-2">{b.description}</p>}
                       <div className="mt-auto pt-4 flex items-center text-sm font-medium text-zinc-500 group-hover:text-white transition-colors">
                         Manage Assets <ChevronRight size={16} className="ml-1" />
@@ -243,7 +243,7 @@ export default function Admin() {
                 
                 <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 md:p-8">
                   <div className="flex justify-between items-start mb-6">
-                    <h2 className="text-2xl font-bold">{selectedBrandId === 'new' ? 'Create New Brand' : 'Edit Brand'}</h2>
+                    <h2 className="font-extrabold text-2xl ">{selectedBrandId === 'new' ? 'Create New Brand' : 'Edit Brand'}</h2>
                     <button onClick={handleSaveBrand} className="flex items-center gap-2 bg-white text-black px-4 py-2 rounded-lg font-medium hover:bg-zinc-200 transition-colors">
                       <Save size={18} /> Save Brand
                     </button>
@@ -282,7 +282,7 @@ export default function Admin() {
 
                 {selectedBrandId !== 'new' && (
                   <div className="space-y-6">
-                    <h3 className="text-xl font-bold pt-4 border-t border-zinc-800">Manage Assets</h3>
+                    <h3 className="font-extrabold text-xl pt-4 border-t border-zinc-800">Manage Assets</h3>
                     
                     <details className="bg-zinc-900 border border-zinc-800 rounded-2xl group overflow-hidden">
                       <summary className="p-6 font-bold cursor-pointer flex justify-between items-center hover:bg-zinc-800/50 transition-colors">
@@ -332,7 +332,7 @@ export default function Admin() {
 
         {activeTab === 'settings' && (
           <div className="p-8 max-w-4xl">
-            <h2 className="text-2xl font-bold mb-6">Settings</h2>
+            <h2 className="font-extrabold text-2xl mb-6">Settings</h2>
             <div className="bg-zinc-900 p-6 rounded-2xl border border-zinc-800 text-zinc-400">
               Settings panel coming soon.
             </div>

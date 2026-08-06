@@ -11,7 +11,7 @@ export default function AboutSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl lg:text-6xl font-heading mb-6"
+            className="font-extrabold text-4xl md:text-5xl lg:text-6xl font-heading mb-6"
           >
             Rooted in <span className="italic">Kolkata.</span> <br/>
             Built for the <span className="italic">World.</span>

@@ -28,7 +28,7 @@ function ServiceTemplate({ title, description, included, process }: { title: str
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-heading tracking-tighter text-foreground mb-8 leading-[0.95]"
+            className="font-extrabold text-5xl md:text-7xl lg:text-8xl font-heading tracking-tighter text-foreground mb-8 leading-[0.95]"
           >
             {title}
           </motion.h1>
@@ -48,7 +48,7 @@ function ServiceTemplate({ title, description, included, process }: { title: str
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h3 className="text-3xl font-heading tracking-tight mb-8">What's Included</h3>
+              <h3 className="font-extrabold text-3xl font-heading tracking-tight mb-8">What's Included</h3>
               <ul className="space-y-6">
                 {included.map((item, i) => (
                   <li key={i} className="flex items-start gap-4">
@@ -67,7 +67,7 @@ function ServiceTemplate({ title, description, included, process }: { title: str
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <h3 className="text-3xl font-heading tracking-tight mb-8">Our Process</h3>
+              <h3 className="font-extrabold text-3xl font-heading tracking-tight mb-8">Our Process</h3>
               <ol className="space-y-8">
                 {process.map((step, i) => (
                   <li key={i} className="flex items-start gap-6 group">
@@ -85,7 +85,7 @@ function ServiceTemplate({ title, description, included, process }: { title: str
       
       <div className="mb-24">
         <div className="max-w-7xl mx-auto px-6 md:px-12 mb-12">
-          <h3 className="text-3xl md:text-5xl font-heading tracking-tight text-foreground">Relevant Work</h3>
+          <h3 className="font-extrabold text-3xl md:text-5xl font-heading tracking-tight text-foreground">Relevant Work</h3>
         </div>
         <Portfolio limit={3} />
       </div>
@@ -154,7 +154,7 @@ export default function Services() {
         <div className="min-h-screen pt-48 pb-24 px-6 md:px-12 flex flex-col justify-between bg-background text-foreground">
           <Navbar />
           <div className="max-w-7xl mx-auto w-full flex-grow text-center">
-            <h1 className="text-5xl md:text-7xl font-heading tracking-tighter mb-8">All Services</h1>
+            <h1 className="font-extrabold text-5xl md:text-7xl font-heading tracking-tighter mb-8">All Services</h1>
             <p className="text-xl text-foreground/70 font-light">Select a service from the homepage to learn more.</p>
           </div>
           <Footer />

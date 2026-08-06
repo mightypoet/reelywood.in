@@ -15,7 +15,7 @@ function IndustryTemplate({ title, description, features }: { title: string, des
       <Navbar />
       <div className="max-w-7xl mx-auto w-full flex-grow px-6">
         <div className="max-w-3xl mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-slate-900 dark:text-white mb-6">
+          <h1 className="font-extrabold text-5xl md:text-6xl tracking-tight text-slate-900 dark:text-white mb-6">
             {title}
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-400 font-medium leading-relaxed mb-8">
@@ -84,7 +84,7 @@ export default function Industries() {
         <div className="min-h-screen pt-32 pb-12 px-6 flex flex-col justify-between">
           <Navbar />
           <div className="max-w-7xl mx-auto w-full flex-grow text-center">
-            <h1 className="text-4xl font-bold mb-6">Industries</h1>
+            <h1 className="font-extrabold text-4xl mb-6">Industries</h1>
             <p>Select an industry from the homepage to learn more.</p>
           </div>
           <Footer />

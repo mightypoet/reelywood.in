@@ -10,7 +10,7 @@ export default function CreativeStatement() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1 }}
-          className="text-4xl md:text-6xl lg:text-7xl font-heading leading-tight"
+          className="font-extrabold text-4xl md:text-6xl lg:text-7xl font-heading leading-tight"
         >
           We do not just create content. <br className="hidden md:block"/>
           <span className="italic font-light">We engineer performance.</span>

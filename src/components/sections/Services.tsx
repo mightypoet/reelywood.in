@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Palette, Play, Users, TrendingUp, Compass, Share2, Layers, Laptop, ArrowRight, X } from 'lucide-react';
+import { RadialScrollGallery } from '../ui/portfolio-and-image-gallery';
 
 const servicesList = [
   { id: 'creative', title: 'Creative Studio', icon: Palette, color: 'from-pink-500 to-rose-500', bg: 'bg-rose-50', desc: 'Brand creatives, product shoots, and packaging.' },
@@ -19,56 +20,62 @@ export default function Services() {
   const selected = servicesList.find(s => s.id === selectedService);
 
   return (
-    <section id="services" className="py-24 relative z-10 bg-background">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-5xl md:text-6xl font-heading font-medium tracking-tighter text-foreground mb-6 tracking-tight"
-          >
+    <section id="services" className="pt-24 pb-12 relative z-10 bg-background overflow-hidden border-t border-border">
+      <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
+        <div className="mb-16">
+          <div className="inline-flex items-center rounded-full border border-border bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground mb-4">
+            Capabilities
+          </div>
+          <h2 className="font-extrabold text-5xl md:text-6xl font-heading tracking-tighter text-foreground mb-6">
             End-to-End <br/> <span className="text-primary">Creative Capabilities</span>
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-lg text-foreground/70 font-bold"
-          >
+          </h2>
+          <p className="text-lg text-foreground/70 font-bold max-w-2xl mx-auto">
             From concept to conversion, we build digital experiences that capture attention and drive growth.
-          </motion.p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {servicesList.map((service, index) => (
-            <motion.div
-              key={service.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              onClick={() => setSelectedService(service.id)}
-              className={`group cursor-pointer p-8 bg-background border border-border hover:border-primary transition-all duration-300 relative overflow-hidden`}
-            >
-              
-              <div className={`w-14 h-14 bg-foreground flex items-center justify-center mb-6 relative z-10`}>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <service.icon size={24} className="text-background group-hover:text-primary transition-colors" />
-                </div>
-              </div>
-              
-              <h3 className="text-xl font-heading font-medium text-foreground mb-3 relative z-10 tracking-tight">{service.title}</h3>
-              <p className="text-foreground/70 text-sm font-bold mb-6 relative z-10">{service.desc}</p>
-              
-              <div className="flex items-center text-sm font-medium text-foreground group-hover:text-primary transition-colors relative z-10 tracking-tight tracking-widest">
-                Explore <ArrowRight size={16} className="ml-1 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </motion.div>
-          ))}
+          </p>
         </div>
       </div>
+
+      <RadialScrollGallery
+        className="!min-h-[700px]"
+        baseRadius={420}
+        mobileRadius={240}
+        scrollDuration={2000}
+        visiblePercentage={45}
+        onItemSelect={(index) => setSelectedService(servicesList[index].id)}
+      >
+        {(hoveredIndex) =>
+          servicesList.map((service, index) => {
+            const isActive = hoveredIndex === index;
+            return (
+              <div
+                key={service.id}
+                className={`
+                  w-[240px] h-[320px] sm:w-[280px] sm:h-[360px] 
+                  rounded-xl border p-6 flex flex-col items-start 
+                  transition-all duration-500 shadow-sm
+                  ${isActive 
+                    ? 'bg-primary border-primary text-primary-foreground scale-100 shadow-xl' 
+                    : 'bg-card border-border text-card-foreground scale-90 opacity-60'
+                  }
+                `}
+              >
+                <div className={`w-14 h-14 flex items-center justify-center rounded-full mb-6 relative z-10 transition-colors ${isActive ? 'bg-primary-foreground text-primary' : 'bg-secondary text-secondary-foreground'}`}>
+                  <service.icon size={24} />
+                </div>
+                
+                <div className="mt-auto">
+                  <h3 className={`font-extrabold text-2xl font-heading mb-3 tracking-tight ${isActive ? 'text-primary-foreground' : 'text-foreground'}`}>{service.title}</h3>
+                  <p className={`text-sm font-bold mb-6 ${isActive ? 'text-primary-foreground/80' : 'text-foreground/70'}`}>{service.desc}</p>
+                  
+                  <div className={`flex items-center text-sm font-medium transition-colors tracking-widest uppercase ${isActive ? 'text-primary-foreground' : 'text-primary'}`}>
+                    Explore <ArrowRight size={16} className={`ml-1 transition-transform ${isActive ? 'translate-x-1' : ''}`} />
+                  </div>
+                </div>
+              </div>
+            );
+          })
+        }
+      </RadialScrollGallery>
 
       {/* Modal */}
       <AnimatePresence>
@@ -92,7 +99,7 @@ export default function Services() {
                   <div className="w-16 h-16 bg-foreground flex items-center justify-center mb-6">
                     <selected.icon size={32} className="text-primary" />
                   </div>
-                  <h3 className="text-3xl font-heading font-medium mb-4 tracking-tight leading-none">{selected.title}</h3>
+                  <h3 className="font-extrabold text-3xl font-heading mb-4 tracking-tight leading-none">{selected.title}</h3>
                   <p className="font-bold">{selected.desc}</p>
                 </div>
                 
