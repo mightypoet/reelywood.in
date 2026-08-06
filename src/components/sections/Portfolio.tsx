@@ -234,7 +234,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/95 p-4 backdrop-blur-xl"
+            className="fixed inset-0 z-[99999] bg-black/95 flex items-center justify-center p-4 pt-24"
             onClick={() => setSelectedBrand(null)}
           >
             <motion.div 
@@ -242,10 +242,10 @@ export default function Portfolio({ limit }: { limit?: number }) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-7xl max-h-[90vh] overflow-y-auto bg-zinc-950 rounded-2xl shadow-2xl border border-zinc-800 flex flex-col"
+              className="relative w-full max-w-7xl max-h-[85vh] flex flex-col bg-zinc-950 rounded-2xl border border-zinc-800 overflow-hidden"
             >
               {/* Sticky Header */}
-              <div className="sticky top-0 z-50 flex justify-between items-center p-6 bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800 shadow-sm">
+              <div className="flex-none flex justify-between items-center p-6 bg-zinc-950 border-b border-zinc-800 z-10">
                 <div>
                   <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white">{selectedBrand.name}</h2>
                   <p className="text-sm text-white/60 font-medium">Selected Works & Performance</p>
@@ -258,8 +258,8 @@ export default function Portfolio({ limit }: { limit?: number }) {
                 </button>
               </div>
 
-              <div className="flex-1">
-                <div className="max-w-[1400px] mx-auto p-6 md:p-12 space-y-24">
+              <div className="flex-1 overflow-y-auto p-6">
+                <div className="max-w-[1400px] mx-auto space-y-24">
                 
                 {/* Visual Media Gallery */}
                 <div className="space-y-12">
