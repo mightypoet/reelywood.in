@@ -126,26 +126,42 @@ export default function Portfolio({ limit }: { limit?: number }) {
   const projectDetails = projects.find(p => p.id === selectedProject);
 
   return (
-    <section id="portfolio" className="py-24 relative z-10 bg-background border border-border mx-6 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8">
-          <div className="max-w-2xl">
+    <section id="portfolio" className="py-24 relative z-10 bg-background overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+        <div className="flex flex-col md:flex-row md:items-start justify-between mb-20 gap-8 relative">
+          <div className="hidden md:block absolute -left-12 top-4 text-foreground/50 text-sm font-medium">
+            (27)
+          </div>
+          
+          <div className="max-w-xl">
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-5xl md:text-6xl font-heading font-medium tracking-tighter text-foreground mb-6 tracking-tight"
+              className="text-6xl md:text-8xl lg:text-[120px] font-bold tracking-tighter text-foreground mb-2 leading-[0.9]"
             >
-              Selected Works
+              Case<br />Studies.
             </motion.h2>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-3xl md:text-5xl font-bold tracking-tighter text-foreground"
+            >
+              2021-26
+            </motion.div>
+          </div>
+          
+          <div className="flex flex-col justify-end max-w-[320px] self-end md:pb-4">
             <motion.p 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-lg text-foreground/70 font-bold"
+              className="text-base text-foreground/70 font-medium leading-relaxed mb-8 md:mb-12"
             >
-              A showcase of our best campaigns, commercials, and digital experiences across all creative disciplines.
+              We've helped businesses across industries achieve their goals. Here are some of our recent projects.
             </motion.p>
           </div>
           
@@ -217,107 +233,102 @@ export default function Portfolio({ limit }: { limit?: number }) {
             <p className="text-slate-500 dark:text-slate-400 text-lg font-medium">No projects found for {selectedBrand !== 'All Brands' ? selectedBrand : 'this category'}.</p>
           </div>
         ) : (
-          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
             <AnimatePresence mode="popLayout">
               {displayedProjects.map((project) => (
                 <motion.div
                   layout
                   key={project.id}
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.4, type: "spring" }}
                   onClick={() => setSelectedProject(project.id)}
-                  className="group relative cursor-pointer overflow-hidden aspect-[4/5] bg-background border border-border"
+                  className="group cursor-pointer flex flex-col"
                 >
-                  {project.media_type === 'image' ? (
-                    <img 
-                      src={project.media_url} 
-                      alt={project.title} 
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100 filter grayscale group-hover:grayscale-0"
-                    />
-                  ) : project.media_type === 'video' ? (
-                    <video 
-                      src={project.media_url} 
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90 group-hover:opacity-100 filter grayscale group-hover:grayscale-0"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 w-full h-full bg-background p-6 flex flex-col pt-12">
-                      {project.media_url && (
-                        <div className="absolute top-6 right-6 w-12 h-12 rounded-md bg-white p-1 border border-border flex items-center justify-center z-10">
-                          <img src={project.media_url} alt="Brand Logo" className="max-w-full max-h-full object-contain" />
-                        </div>
-                      )}
-                      <div className="mb-4">
-                        <div className="flex items-center gap-3 mb-1">
-                          <div className="text-3xl font-heading font-medium text-foreground">
-                            ₹{project.stats?.revenue !== undefined ? Number(project.stats.revenue).toLocaleString('en-IN') : '0'}
-                          </div>
-                          <span className="text-xs font-bold text-background bg-foreground px-2 py-1 flex items-center tracking-widest">
-                            <TrendingUp size={12} className="mr-1" /> +24%
-                          </span>
-                        </div>
-                        <div className="text-xs font-bold text-foreground/70 tracking-tight tracking-widest">Revenue Generated</div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-4 mb-4">
-                        <div className="bg-background p-4 border border-border">
-                          <div className="flex items-center justify-between mb-1">
-                            <div className="text-xl font-heading font-medium text-foreground">{project.stats?.roas || '0'}x</div>
-                            <span className="text-[10px] font-bold text-foreground/70">+34%</span>
-                          </div>
-                          <div className="text-[10px] font-bold text-foreground/70 tracking-tight tracking-widest">ROAS</div>
-                        </div>
-                        <div className="bg-background p-4 border border-border">
-                          <div className="flex items-center justify-between mb-1">
-                            <div className="text-xl font-heading font-medium text-foreground">₹{project.stats?.cpa || '0'}</div>
-                            <span className="text-[10px] font-bold text-foreground/70">-12%</span>
-                          </div>
-                          <div className="text-[10px] font-bold text-foreground/70 tracking-tight tracking-widest">CPA</div>
-                        </div>
-                      </div>
-                      <div className="flex-1 mt-auto overflow-hidden opacity-50 group-hover:opacity-100 transition-opacity">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <AreaChart data={project.stats?.chart_data || []}>
-                            <defs>
-                              <linearGradient id="colorRevenueGrid" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.3}/>
-                                <stop offset="95%" stopColor="var(--primary)" stopOpacity={0}/>
-                              </linearGradient>
-                            </defs>
-                            <Area type="monotone" dataKey="revenue" stroke="var(--primary)" fillOpacity={1} fill="url(#colorRevenueGrid)" strokeWidth={3} />
-                          </AreaChart>
-                        </ResponsiveContainer>
-                      </div>
+                  <div className="flex justify-between items-center mb-4 px-1">
+                    <div className="flex items-baseline gap-2">
+                      <h3 className="font-bold text-xl text-foreground">{project.title}</h3>
+                      <span className="text-sm text-foreground/50 font-medium">/{new Date().getFullYear()}</span>
                     </div>
-                  )}
-                  
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-300" />
-                  
-                  <div className="absolute inset-0 p-8 flex flex-col justify-between">
-                    <div className="flex justify-end">
-                      {project.client && (
-                        <span className="px-3 py-1.5 bg-foreground text-background text-xs font-bold tracking-widest tracking-tight border border-border">
-                          {project.client}
-                        </span>
-                      )}
-                    </div>
-                    
-                    <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                      <div className="flex gap-2 mb-3">
-                        <span className="px-3 py-1 bg-primary text-primary-foreground text-xs font-bold tracking-tight tracking-widest border border-border">
-                          {project.category}
-                        </span>
-                      </div>
-                      <h3 className="text-2xl font-heading font-medium text-foreground mb-2 tracking-tight">{project.title}</h3>
+                    <div className="flex gap-1.5 opacity-50 group-hover:opacity-100 transition-opacity">
+                      <div className="w-1.5 h-1.5 rounded-full bg-foreground/40"></div>
+                      <div className="w-1.5 h-1.5 rounded-full bg-foreground/40"></div>
+                      <div className="w-1.5 h-1.5 rounded-full bg-foreground/40"></div>
                     </div>
                   </div>
                   
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-primary text-primary-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-50 group-hover:scale-100 transition-all duration-300 z-10 border border-border">
-                    {project.media_type === 'video' ? <Play size={24} fill="currentColor" /> : project.media_type === 'chart' ? <ArrowUpRight size={28} /> : <ArrowUpRight size={28} />}
+                  <div className="relative overflow-hidden aspect-[16/10] rounded-3xl bg-foreground/5">
+                    {project.media_type === 'image' ? (
+                      <img 
+                        src={project.media_url} 
+                        alt={project.title} 
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    ) : project.media_type === 'video' ? (
+                      <video 
+                        src={project.media_url} 
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 w-full h-full bg-background p-6 flex flex-col pt-12 border border-border rounded-3xl">
+                        {project.media_url && (
+                          <div className="absolute top-6 right-6 w-12 h-12 rounded-md bg-white p-1 border border-border flex items-center justify-center z-10">
+                            <img src={project.media_url} alt="Brand Logo" className="max-w-full max-h-full object-contain" />
+                          </div>
+                        )}
+                        <div className="mb-4">
+                          <div className="flex items-center gap-3 mb-1">
+                            <div className="text-3xl font-heading font-medium text-foreground">
+                              ₹{project.stats?.revenue !== undefined ? Number(project.stats.revenue).toLocaleString('en-IN') : '0'}
+                            </div>
+                            <span className="text-xs font-bold text-background bg-foreground px-2 py-1 flex items-center tracking-widest rounded">
+                              <TrendingUp size={12} className="mr-1" /> +24%
+                            </span>
+                          </div>
+                          <div className="text-xs font-bold text-foreground/70 tracking-tight tracking-widest">Revenue Generated</div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 mb-4">
+                          <div className="bg-background p-4 border border-border rounded-xl">
+                            <div className="flex items-center justify-between mb-1">
+                              <div className="text-xl font-heading font-medium text-foreground">{project.stats?.roas || '0'}x</div>
+                              <span className="text-[10px] font-bold text-foreground/70">+34%</span>
+                            </div>
+                            <div className="text-[10px] font-bold text-foreground/70 tracking-tight tracking-widest">ROAS</div>
+                          </div>
+                          <div className="bg-background p-4 border border-border rounded-xl">
+                            <div className="flex items-center justify-between mb-1">
+                              <div className="text-xl font-heading font-medium text-foreground">₹{project.stats?.cpa || '0'}</div>
+                              <span className="text-[10px] font-bold text-foreground/70">-12%</span>
+                            </div>
+                            <div className="text-[10px] font-bold text-foreground/70 tracking-tight tracking-widest">CPA</div>
+                          </div>
+                        </div>
+                        <div className="flex-1 mt-auto overflow-hidden opacity-80 group-hover:opacity-100 transition-opacity">
+                          <ResponsiveContainer width="100%" height="100%">
+                            <AreaChart data={project.stats?.chart_data || []}>
+                              <defs>
+                                <linearGradient id="colorRevenueGrid" x1="0" y1="0" x2="0" y2="1">
+                                  <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.3}/>
+                                  <stop offset="95%" stopColor="var(--primary)" stopOpacity={0}/>
+                                </linearGradient>
+                              </defs>
+                              <Area type="monotone" dataKey="revenue" stroke="var(--primary)" fillOpacity={1} fill="url(#colorRevenueGrid)" strokeWidth={3} />
+                            </AreaChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                    
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white text-black rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transform scale-50 group-hover:scale-100 transition-all duration-300 z-10 shadow-lg">
+                      {project.media_type === 'video' ? <Play size={24} fill="currentColor" className="ml-1" /> : project.media_type === 'chart' ? <ArrowUpRight size={28} /> : <ArrowUpRight size={28} />}
+                    </div>
                   </div>
                 </motion.div>
               ))}

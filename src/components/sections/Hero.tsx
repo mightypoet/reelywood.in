@@ -1,88 +1,63 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 
 export default function Hero() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(0);
-
-  useEffect(() => {
-    if (containerRef.current) {
-      setWidth(containerRef.current.scrollWidth - containerRef.current.offsetWidth);
-    }
-  }, []);
-
-  const videos = [
-    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
-  ];
-
   return (
-    <section id="home" className="pt-32 pb-20 md:pt-48 md:pb-32 bg-background overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 mb-16 md:mb-24 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="flex flex-col items-start gap-6"
-        >
-          <p className="font-mono text-primary uppercase tracking-widest text-sm">
-            [ Reelywood AI ]
-          </p>
-          <h1 className="text-6xl md:text-8xl lg:text-9xl font-heading text-foreground tracking-tighter leading-[0.95] max-w-5xl">
-            AI-first <br />
-            <span className="italic text-muted">360° marketing.</span>
-          </h1>
-          <p className="mt-4 text-xl md:text-2xl text-foreground/80 max-w-2xl font-sans font-light">
-            We are a creative studio, AI lab, marketing agency, and performance partner for modern brands.
-          </p>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="mt-8 flex flex-col sm:flex-row gap-4"
-          >
-            <a href="#contact" className="bg-primary text-primary-foreground px-8 py-4 text-sm font-sans font-medium hover:bg-foreground hover:text-background transition-colors rounded-sm text-center">
-              Start a Project
-            </a>
-            <a href="#work" className="bg-transparent text-foreground px-8 py-4 text-sm font-sans font-medium border border-border hover:border-primary hover:text-primary transition-colors rounded-sm text-center">
-              View Our Work
-            </a>
-          </motion.div>
-        </motion.div>
-      </div>
+    <section id="home" className="pt-24 pb-12 px-4 md:px-6 relative bg-background">
+      <div className="max-w-[1400px] mx-auto bg-[#1a1a1a] rounded-[2rem] p-8 md:p-12 lg:p-16 relative overflow-hidden text-white flex flex-col min-h-[85vh]">
+        
+        {/* Background Image/Texture */}
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen flex items-center justify-center">
+          <img 
+            src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop" 
+            alt="Gold Texture" 
+            className="w-full h-full object-cover scale-110"
+          />
+        </div>
 
-      <div className="relative w-full cursor-grab active:cursor-grabbing pl-6 md:pl-12 mt-20">
-        <motion.div ref={containerRef} className="overflow-hidden">
-          <motion.div 
-            drag="x"
-            dragConstraints={{ right: 0, left: -width }}
-            dragElastic={0.1}
-            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            className="flex gap-4 md:gap-8 w-max pr-6 md:pr-12"
-          >
-            {videos.map((src, idx) => (
-              <motion.div 
-                key={idx}
-                className="w-[280px] md:w-[400px] lg:w-[500px] aspect-[16/9] bg-muted overflow-hidden flex-shrink-0 relative group rounded-sm"
-                whileHover={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+        <div className="relative z-10 flex flex-col justify-between h-full flex-1">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-8">
+            <div className="max-w-sm">
+              <p className="text-white/90 text-sm md:text-base font-medium leading-relaxed">
+                We partner with ambitious teams to craft brands, build digital products, and design AI-powered marketing strategy that scale with the future.
+              </p>
+            </div>
+            <div className="flex flex-col gap-6 text-right">
+              <div>
+                <p className="text-2xl md:text-3xl font-bold tracking-tight text-white">$50M+</p>
+                <p className="text-white/60 text-xs mt-1 max-w-[160px] ml-auto leading-tight">Client Revenue Influenced Through Product Design</p>
+              </div>
+              <div>
+                <p className="text-2xl md:text-3xl font-bold tracking-tight text-white">120M+</p>
+                <p className="text-white/60 text-xs mt-1 max-w-[160px] ml-auto leading-tight">Users Impacted By Products We Designed</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-24 mb-16 md:mt-32">
+            <h1 className="text-5xl md:text-7xl lg:text-[110px] font-bold leading-[0.95] tracking-tighter text-white max-w-4xl">
+              AI-Powered Brand<br />to Market
+            </h1>
+          </div>
+
+          <div className="flex flex-col md:flex-row justify-between items-end gap-8 mt-auto">
+            <div className="flex flex-col gap-6 items-start">
+              <p className="text-white/80 font-medium text-sm md:text-base max-w-[180px] leading-tight">
+                Over <span className="text-white font-bold">250+</span> products designed and launched
+              </p>
+              <a 
+                href="#contact" 
+                className="bg-[#f9572a] text-white px-8 py-3 rounded-full font-medium text-sm hover:bg-[#e04a20] transition-colors flex items-center gap-2"
               >
-                <video 
-                  src={src} 
-                  autoPlay 
-                  loop 
-                  muted 
-                  playsInline 
-                  className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500"
-                />
-              </motion.div>
-            ))}
-          </motion.div>
-        </motion.div>
+                Start a Project <ArrowRight size={16} />
+              </a>
+            </div>
+            <div className="text-white/50 text-xs font-medium">
+              &copy; 2026 goldenflitch™ Studios
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
