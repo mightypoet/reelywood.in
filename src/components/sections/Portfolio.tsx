@@ -25,6 +25,7 @@ type Project = {
 type BrandGroup = {
   name: string;
   coverImage: string;
+  coverType: 'image' | 'video' | 'chart';
   projects: Project[];
 };
 
@@ -39,8 +40,8 @@ export default function Portfolio({ limit }: { limit?: number }) {
 
   useEffect(() => {
     if (selectedBrand) {
-      document.body.style.overflow = 'hidden';
-      document.documentElement.style.overflow = 'hidden';
+      document.body.style.setProperty('overflow', 'hidden', 'important');
+      document.documentElement.style.setProperty('overflow', 'hidden', 'important');
     } else {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
@@ -134,14 +135,18 @@ export default function Portfolio({ limit }: { limit?: number }) {
     });
     
     let result = Object.entries(groups).map(([name, brandProjects]) => {
-      const coverImage = brandProjects.find(p => p.media_type === 'image')?.media_url 
-        || brandProjects.find(p => p.media_type === 'video')?.media_url 
-        || brandProjects[0]?.media_url || '';
+      const coverProject = brandProjects.find(p => p.media_type === 'image') 
+        || brandProjects.find(p => p.media_type === 'video') 
+        || brandProjects[0];
+        
+      const coverImage = coverProject?.media_url || '';
+      const coverType = coverProject?.media_type || 'image';
         
       return {
         name,
         projects: brandProjects,
-        coverImage
+        coverImage,
+        coverType
       };
     });
 
@@ -210,11 +215,23 @@ export default function Portfolio({ limit }: { limit?: number }) {
                   onClick={() => setSelectedBrand(brand)}
                   className="group cursor-pointer relative overflow-hidden rounded-2xl aspect-[4/3] bg-foreground/5"
                 >
-                  <img 
-                    src={brand.coverImage} 
-                    alt={brand.name} 
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
+                  {brand.coverType === 'video' ? (
+                    <video 
+                      src={brand.coverImage} 
+                      loop
+                      muted
+                      playsInline
+                      onMouseEnter={(e) => e.currentTarget.play()}
+                      onMouseLeave={(e) => e.currentTarget.pause()}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  ) : (
+                    <img 
+                      src={brand.coverImage} 
+                      alt={brand.name} 
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/50 transition-colors duration-500" />
                   
                   <div className="absolute inset-0 p-8 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -237,7 +254,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[99999] bg-black/95 flex items-center justify-center p-4 pt-24"
+            className="fixed inset-0 z-[99999] bg-black/95 flex justify-center pt-24 pb-4 px-4 w-screen h-screen overflow-hidden"
             onClick={() => setSelectedBrand(null)}
           >
             <motion.div 
@@ -245,7 +262,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-7xl max-h-[85vh] flex flex-col bg-zinc-950 rounded-2xl border border-zinc-800 overflow-hidden"
+              className="relative w-full max-w-7xl h-full flex flex-col bg-zinc-950 rounded-2xl border border-zinc-800 overflow-hidden"
             >
               {/* Sticky Header */}
               <div className="flex-none flex justify-between items-center p-6 bg-zinc-950 border-b border-zinc-800 z-10">
@@ -286,10 +303,11 @@ export default function Portfolio({ limit }: { limit?: number }) {
                           {project.media_type === 'video' && (
                             <video 
                               src={project.media_url}
-                              autoPlay
                               loop
                               muted
                               playsInline
+                              onMouseEnter={(e) => e.currentTarget.play()}
+                              onMouseLeave={(e) => e.currentTarget.pause()}
                               className="w-full h-auto max-h-[85vh] object-contain"
                             />
                           )}
