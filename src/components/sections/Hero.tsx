@@ -36,7 +36,7 @@ export default function Hero() {
           </div>
 
           <div className="mt-24 mb-16 md:mt-32">
-            <h1 className="text-5xl md:text-7xl lg:text-[110px] font-bold leading-[0.95] tracking-tighter text-white max-w-4xl">
+            <h1 className="text-5xl md:text-7xl lg:text-[110px] font-heading font-bold leading-[0.95] tracking-tighter text-white max-w-4xl">
               AI-Powered Brand<br />to Market
             </h1>
           </div>

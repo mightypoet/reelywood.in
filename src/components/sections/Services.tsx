@@ -121,7 +121,7 @@ export default function Services() {
                         <div className={`w-2 h-2 bg-foreground`}></div>
                       </div>
                       <div>
-                        <h5 className="font-bold text-foreground text-sm tracking-tight tracking-widest">Service Detail {i}</h5>
+                        <h5 className="font-heading font-bold text-foreground text-sm tracking-tight tracking-widest">Service Detail {i}</h5>
                         <p className="text-foreground/70 text-sm mt-1 leading-relaxed">Detailed description of this specific service offering and how it benefits the client.</p>
                       </div>
                     </li>

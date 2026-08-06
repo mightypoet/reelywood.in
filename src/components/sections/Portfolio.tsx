@@ -41,15 +41,12 @@ export default function Portfolio({ limit }: { limit?: number }) {
 
   useEffect(() => {
     if (selectedBrand) {
-      document.body.style.setProperty('overflow', 'hidden', 'important');
-      document.documentElement.style.setProperty('overflow', 'hidden', 'important');
+      document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
     }
     return () => {
       document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
     };
   }, [selectedBrand]);
 
@@ -170,7 +167,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="text-6xl md:text-8xl lg:text-[120px] font-bold tracking-tighter text-foreground mb-2 leading-[0.9]"
+              className="text-6xl md:text-8xl lg:text-[120px] font-heading font-bold tracking-tighter text-foreground mb-2 leading-[0.9]"
             >
               Case<br />Studies.
             </motion.h2>
@@ -179,7 +176,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
-              className="text-3xl md:text-5xl font-bold tracking-tighter text-foreground"
+              className="text-3xl md:text-5xl font-heading font-bold tracking-tighter text-foreground"
             >
               2021-26
             </motion.div>
@@ -236,7 +233,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/50 transition-colors duration-500" />
                   
                   <div className="absolute inset-0 p-8 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <h3 className="text-3xl md:text-4xl font-bold text-white mb-4 tracking-tight text-center">{brand.name}</h3>
+                    <h3 className="text-3xl md:text-4xl font-heading font-bold text-white mb-4 tracking-tight text-center">{brand.name}</h3>
                     <span className="px-6 py-2 bg-white/20 backdrop-blur-md text-white rounded-full text-sm font-medium border border-white/30 flex items-center gap-2">
                       View Project <ArrowUpRight size={16} />
                     </span>
@@ -256,7 +253,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[99999] bg-black/95 flex justify-center pt-24 pb-4 px-4 w-screen h-screen overflow-hidden"
+            className="fixed inset-0 z-[99999] bg-black/95 px-4 py-20 flex justify-center items-center"
             onClick={() => setSelectedBrand(null)}
           >
             <motion.div 
@@ -264,12 +261,12 @@ export default function Portfolio({ limit }: { limit?: number }) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-7xl h-full max-h-full min-h-0 flex flex-col bg-zinc-950 rounded-2xl border border-zinc-800 overflow-hidden"
+              className="relative w-full max-w-7xl h-full flex flex-col bg-zinc-950 rounded-2xl border border-zinc-800 overflow-hidden"
             >
               {/* Sticky Header */}
-              <div className="flex-none flex justify-between items-center p-6 bg-zinc-950 border-b border-zinc-800 z-10">
+              <div className="flex-none p-6 bg-zinc-950 border-b border-zinc-800 flex justify-between items-center z-10">
                 <div>
-                  <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white">{selectedBrand.name}</h2>
+                  <h2 className="text-2xl md:text-3xl font-heading font-bold tracking-tight text-white">{selectedBrand.name}</h2>
                   <p className="text-sm text-white/60 font-medium">Selected Works & Performance</p>
                 </div>
                 <button 
@@ -280,7 +277,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto overscroll-contain min-h-0 p-6">
+              <div className="flex-1 overflow-y-auto p-6 relative">
                 <div className="max-w-[1400px] mx-auto space-y-24">
                 
                 {/* Visual Media Gallery */}
@@ -318,7 +315,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
                             <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md text-white text-xs font-medium rounded-full mb-2 w-max">
                               {project.category}
                             </span>
-                            <h4 className="text-white font-bold text-lg leading-tight">{project.title}</h4>
+                            <h4 className="text-white font-heading font-bold text-lg leading-tight">{project.title}</h4>
                           </div>
                         </div>
                       </motion.div>
@@ -329,7 +326,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
                 {/* Performance Dashboard */}
                 {selectedBrand.projects.filter(p => p.category === 'Performance').length > 0 && (
                   <div className="pt-12 border-t border-white/10">
-                    <h3 className="text-3xl font-bold tracking-tight text-white mb-8">Campaign Performance</h3>
+                    <h3 className="text-3xl font-heading font-bold tracking-tight text-white mb-8">Campaign Performance</h3>
                     
                     {selectedBrand.projects.filter(p => p.category === 'Performance').map((project, idx) => (
                       <div key={'perf-'+idx} className="space-y-8">
@@ -374,7 +371,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
                         {/* Data Table */}
                         <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
                           <div className="p-6 border-b border-white/10">
-                            <h4 className="text-lg font-bold text-white">Platform Breakdown</h4>
+                            <h4 className="text-lg font-heading font-bold text-white">Platform Breakdown</h4>
                           </div>
                           <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse">
