@@ -1,9 +1,26 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, ArrowUpRight, X, TrendingUp } from 'lucide-react';
+import { Play, ArrowUpRight, X, TrendingUp, GripHorizontal } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragOverlay
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  rectSortingStrategy,
+  useSortable
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 type Brand = {
   id: string;
@@ -35,6 +52,130 @@ type BrandGroup = {
   coverImage?: string;
   coverType: 'image' | 'video' | 'chart';
   projects: Project[];
+};
+
+const SortableGalleryItem = ({ project, id }: { project: Project; id: string }) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 50 : 1,
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`relative group w-full break-inside-avoid mb-4 ${isDragging ? 'opacity-50' : ''}`}
+    >
+      <div className={`relative w-full rounded-2xl overflow-hidden border ${isDragging ? 'border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.5)]' : 'border-zinc-800'} bg-white/5`}>
+        {/* Drag Handle */}
+        <div 
+          {...attributes} 
+          {...listeners} 
+          className="absolute top-3 left-3 z-20 p-2 bg-black/50 backdrop-blur-md rounded-lg opacity-0 group-hover:opacity-100 cursor-grab active:cursor-grabbing transition-opacity"
+        >
+          <GripHorizontal size={16} className="text-white/70" />
+        </div>
+
+        {project.media_type === 'image' && (
+          <img 
+            src={project.media_url} 
+            alt={project.title} 
+            className="w-full h-auto block"
+          />
+        )}
+        {project.media_type === 'video' && (
+          <video 
+            src={project.media_url}
+            loop
+            muted
+            playsInline
+            onMouseEnter={(e) => e.currentTarget.play()}
+            onMouseLeave={(e) => e.currentTarget.pause()}
+            className="w-full h-auto block"
+          />
+        )}
+        {/* Overlay with info */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 pointer-events-none">
+          <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md text-white text-xs font-medium rounded-full mb-2 w-max">
+            {project.category}
+          </span>
+          <h4 className="text-white font-heading font-bold text-lg leading-tight">{project.title}</h4>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const DraggableGallery = ({ initialProjects }: { initialProjects: Project[] }) => {
+  const [items, setItems] = useState(initialProjects);
+  const [activeId, setActiveId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setItems(initialProjects);
+  }, [initialProjects]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  const handleDragStart = (event: any) => {
+    setActiveId(event.active.id);
+  };
+
+  const handleDragEnd = (event: any) => {
+    setActiveId(null);
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      setItems((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+        return arrayMove(items, oldIndex, newIndex);
+      });
+    }
+  };
+
+  const activeProject = items.find(p => p.id === activeId);
+
+  return (
+    <DndContext 
+      sensors={sensors} 
+      collisionDetection={closestCenter} 
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext items={items.map(p => p.id)} strategy={rectSortingStrategy}>
+        <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-4 w-full">
+          {items.map((project) => (
+            <SortableGalleryItem key={project.id} id={project.id} project={project} />
+          ))}
+        </div>
+      </SortableContext>
+      <DragOverlay>
+        {activeProject ? (
+          <div className="relative group w-full break-inside-avoid">
+            <div className="relative w-full rounded-2xl overflow-hidden border border-blue-500 shadow-[0_0_30px_rgba(59,130,246,0.6)] bg-white/5 rotate-2 scale-105">
+              {activeProject.media_type === 'image' && (
+                <img src={activeProject.media_url} className="w-full h-auto block" />
+              )}
+              {activeProject.media_type === 'video' && (
+                <video src={activeProject.media_url} className="w-full h-auto block" />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6">
+                 <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md text-white text-xs font-medium rounded-full mb-2 w-max">
+                   {activeProject.category}
+                 </span>
+                 <h4 className="text-white font-heading font-bold text-lg leading-tight">{activeProject.title}</h4>
+              </div>
+            </div>
+          </div>
+        ) : null}
+      </DragOverlay>
+    </DndContext>
+  );
 };
 
 export default function Portfolio({ limit }: { limit?: number }) {
@@ -290,53 +431,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
                 
                 {/* Visual Media Gallery */}
                 <div className="space-y-12">
-                  <div className="grid grid-cols-1 md:grid-cols-4 md:auto-rows-[250px] gap-4 w-full">
-                    {selectedBrand.projects.filter(p => p.category !== 'Performance').map((project, idx) => {
-                      let spanClass = 'md:col-span-1 md:row-span-1';
-                      if (idx === 0) spanClass = 'md:col-span-2 md:row-span-2';
-                      else if (idx === 1) spanClass = 'md:col-span-2 md:row-span-1';
-                      else if (idx === 2) spanClass = 'md:col-span-1 md:row-span-1';
-                      else if (idx === 3) spanClass = 'md:col-span-1 md:row-span-1';
-                      
-                      return (
-                      <motion.div 
-                        key={project.id + idx}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.05 }}
-                        className={`relative group w-full flex flex-col ${spanClass}`}
-                      >
-                        <div className="relative w-full h-full rounded-2xl overflow-hidden border border-zinc-800 bg-white/5">
-                          {project.media_type === 'image' && (
-                            <img 
-                              src={project.media_url} 
-                              alt={project.title} 
-                              className="w-full h-full object-cover"
-                            />
-                          )}
-                          {project.media_type === 'video' && (
-                            <video 
-                              src={project.media_url}
-                              loop
-                              muted
-                              playsInline
-                              onMouseEnter={(e) => e.currentTarget.play()}
-                              onMouseLeave={(e) => e.currentTarget.pause()}
-                              className="w-full h-full object-cover"
-                            />
-                          )}
-                          {/* Overlay with info */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 pointer-events-none">
-                            <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md text-white text-xs font-medium rounded-full mb-2 w-max">
-                              {project.category}
-                            </span>
-                            <h4 className="text-white font-heading font-bold text-lg leading-tight">{project.title}</h4>
-                          </div>
-                        </div>
-                      </motion.div>
-                      );
-                    })}
-                  </div>
+                  <DraggableGallery initialProjects={selectedBrand.projects.filter(p => p.category !== 'Performance')} />
                 </div>
 
                 {/* Performance Dashboard */}

@@ -76,12 +76,6 @@ export default function Home() {
         <FAQSection />
         <FinalCTA />
       </main>
-
-      {/* Floating CTA */}
-      <a href="#contact" className="fixed bottom-8 right-8 bg-primary text-primary-foreground p-4 border border-border hover:bg-foreground hover:text-background transition-colors z-50 flex items-center justify-center font-bold tracking-widest uppercase rounded-sm shadow-xl">
-        Book a Call
-      </a>
-
       <Footer />
     </div>
   );
