@@ -2,7 +2,7 @@ import React from 'react';
 
 const team = [
   { name: "Aditya Das", role: "COO, Co-Founder", img: "https://4qvdbq6tu5ltlo61.public.blob.vercel-storage.com/WhatsApp%20Image%202026-08-07%20at%204.15.52%20PM.jpeg" },
-  { name: "Rohan Das", role: "CEO, Founder", img: "https://4qvdbq6tu5ltlo61.public.blob.vercel-storage.com/WhatsApp%20Image%202026-08-07%20at%204.20.56%20PM.jpeg" }
+  { name: "Rohan Das", role: "CEO, Founder", img: "https://4qvdbq6tu5ltlo61.public.blob.vercel-storage.com/ChatGPT%20Image%20Aug%207%2C%202026%2C%2006_20_51%20PM.png" }
 ];
 
 export default function TeamSection() {
