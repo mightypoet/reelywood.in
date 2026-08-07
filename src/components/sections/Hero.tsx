@@ -115,25 +115,25 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <h1 className="font-extrabold text-6xl md:text-8xl lg:text-[130px] font-heading leading-[0.85] tracking-tighter text-white max-w-5xl uppercase mix-blend-difference">
+              <h1 className="font-extrabold text-[12vw] sm:text-6xl md:text-8xl lg:text-[130px] font-heading leading-[0.85] tracking-tighter text-white max-w-5xl uppercase mix-blend-difference">
                 Brand<br />to Market.
               </h1>
             </motion.div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-end gap-8 mt-auto pointer-events-auto">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8 mt-auto pointer-events-auto">
             <div className="flex flex-col gap-6 items-start">
               <p className="text-white/60 font-mono text-xs tracking-widest uppercase">
                 250+ products designed
               </p>
               <a 
                 href="#contact" 
-                className="bg-white text-black px-8 py-4 rounded-none font-bold text-sm hover:bg-black hover:text-white border border-white transition-all flex items-center gap-3 uppercase tracking-widest"
+                className="bg-white text-black px-6 md:px-8 py-3 md:py-4 rounded-none font-bold text-xs md:text-sm hover:bg-black hover:text-white border border-white transition-all flex items-center gap-3 uppercase tracking-widest"
               >
                 Start a Project <ArrowRight size={18} />
               </a>
             </div>
-            <div className="text-white/50 text-xs font-mono uppercase tracking-widest">
+            <div className="text-white/50 text-xs font-mono uppercase tracking-widest self-start md:self-auto">
               &copy; 2026 Studios
             </div>
           </div>

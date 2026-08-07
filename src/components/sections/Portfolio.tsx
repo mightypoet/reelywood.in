@@ -261,7 +261,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[99999] bg-black/95 px-4 py-20 flex justify-center items-center"
+            className="fixed inset-0 z-[99999] bg-black/95 p-4 sm:p-6 md:p-12 flex justify-center items-center"
             onClick={() => setSelectedBrand(null)}
           >
             <motion.div 
@@ -272,20 +272,20 @@ export default function Portfolio({ limit }: { limit?: number }) {
               className="relative w-full max-w-7xl h-full flex flex-col bg-zinc-950 rounded-2xl border border-zinc-800 overflow-hidden"
             >
               {/* Sticky Header */}
-              <div className="flex-none p-6 bg-zinc-950 border-b border-zinc-800 flex justify-between items-center z-10">
+              <div className="flex-none p-4 md:p-6 bg-zinc-950 border-b border-zinc-800 flex justify-between items-center z-10">
                 <div>
-                  <h2 className="font-extrabold text-2xl md:text-3xl font-heading tracking-tight text-white">{selectedBrand.name}</h2>
-                  <p className="text-sm text-white/60 font-medium">Selected Works & Performance</p>
+                  <h2 className="font-extrabold text-xl md:text-3xl font-heading tracking-tight text-white">{selectedBrand.name}</h2>
+                  <p className="text-xs md:text-sm text-white/60 font-medium mt-1">Selected Works & Performance</p>
                 </div>
                 <button 
                   onClick={() => setSelectedBrand(null)}
-                  className="w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors text-white"
+                  className="w-10 h-10 md:w-12 md:h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-colors text-white flex-shrink-0"
                 >
-                  <X size={24} />
+                  <X size={20} className="md:w-6 md:h-6" />
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-6 relative">
+              <div className="flex-1 overflow-y-auto p-4 md:p-6 relative">
                 <div className="max-w-[1400px] mx-auto space-y-24">
                 
                 {/* Visual Media Gallery */}

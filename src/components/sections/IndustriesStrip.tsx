@@ -21,7 +21,7 @@ export default function IndustriesStrip() {
           <p className="font-mono text-sm tracking-widest uppercase text-ink/60">[ Domain Expertise ]</p>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {industries.map((ind, i) => (
             <Link 
               key={i} 
