@@ -20,6 +20,7 @@ import CaseStudies from '../components/sections/CaseStudies';
 import PricingSection from '../components/sections/PricingSection';
 import FAQSection from '../components/sections/FAQSection';
 import FinalCTA from '../components/sections/FinalCTA';
+import ScrollBlur from '../components/ui/ScrollBlur';
 import Lenis from 'lenis';
 
 export default function Home() {
@@ -51,6 +52,13 @@ export default function Home() {
       {/* Announcement Banner */}
       <div className="bg-primary text-primary-foreground py-2 text-center text-sm font-bold tracking-widest uppercase">
         🚀 New: Reelywood AI Marketing Automation Suite is now live!
+      </div>
+      
+      <div className="fixed top-0 left-0 right-0 h-32 z-40 pointer-events-none">
+        <ScrollBlur direction="top" />
+      </div>
+      <div className="fixed bottom-0 left-0 right-0 h-32 z-40 pointer-events-none">
+        <ScrollBlur direction="bottom" />
       </div>
       
       <Navbar />
