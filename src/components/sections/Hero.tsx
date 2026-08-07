@@ -1,91 +1,14 @@
-import React, { useRef } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-
-const InteractiveBackground = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  // Smooth out mouse movement
-  const springConfig = { damping: 25, stiffness: 150 };
-  const smoothX = useSpring(mouseX, springConfig);
-  const smoothY = useSpring(mouseY, springConfig);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    
-    // Normalize coordinates from -1 to 1
-    const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-    const y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
-    
-    mouseX.set(x);
-    mouseY.set(y);
-  };
-
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
-
-  // 12x8 grid for interactive blocks
-  const grid = Array.from({ length: 96 });
-
-  return (
-    <div 
-      ref={containerRef}
-      className="absolute inset-0 z-0 overflow-hidden bg-black rounded-[2rem] cursor-crosshair"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      {/* 3D perspective container */}
-      <motion.div 
-        className="w-[110%] h-[110%] -left-[5%] -top-[5%] absolute grid grid-cols-12 grid-rows-8"
-        style={{
-          perspective: 1000,
-          rotateX: useTransform(smoothY, [-1, 1], [15, -15]),
-          rotateY: useTransform(smoothX, [-1, 1], [-15, 15]),
-        }}
-      >
-        {grid.map((_, i) => (
-          <motion.div
-            key={i}
-            className="border-[0.5px] border-white/[0.03] relative flex items-center justify-center group"
-            style={{ transformStyle: "preserve-3d" }}
-            whileHover={{
-              scale: 0.8,
-              rotateX: Math.random() > 0.5 ? 180 : -180,
-              rotateY: Math.random() > 0.5 ? 180 : -180,
-              z: 60,
-              backgroundColor: "rgba(255, 255, 255, 0.9)",
-              transition: { duration: 0.5, type: "spring", bounce: 0.4 }
-            }}
-          >
-            {/* Inner dot */}
-            <motion.div 
-              className="w-1 h-1 bg-white/10 rounded-full group-hover:bg-black transition-colors duration-300"
-              style={{
-                x: useTransform(smoothX, [-1, 1], [-10, 10]),
-                y: useTransform(smoothY, [-1, 1], [-10, 10]),
-              }}
-            />
-          </motion.div>
-        ))}
-      </motion.div>
-
-      {/* Vignette overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.8)_100%)] pointer-events-none" />
-    </div>
-  );
-};
+import ElectricGaze from '../ui/ElectricGaze';
 
 export default function Hero() {
   return (
     <section id="home" className="pt-24 pb-12 px-4 md:px-6 relative bg-white">
       <div className="max-w-[1400px] mx-auto bg-black rounded-[2rem] p-8 md:p-12 lg:p-16 relative overflow-hidden text-white flex flex-col min-h-[85vh]">
         
-        <InteractiveBackground />
+        <ElectricGaze imageUrl="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=1200&q=80" />
 
         <div className="relative z-10 flex flex-col justify-between h-full flex-1 pointer-events-none">
           <div className="flex flex-col md:flex-row justify-between items-start gap-8">

@@ -326,7 +326,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
               viewport={{ once: true }}
               className="font-extrabold text-6xl md:text-8xl lg:text-[120px] font-heading tracking-tighter text-foreground mb-2 leading-[0.9]"
             >
-              Case<br />Studies.
+              Our<br />Works.
             </motion.h2>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
