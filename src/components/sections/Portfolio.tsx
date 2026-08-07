@@ -290,21 +290,28 @@ export default function Portfolio({ limit }: { limit?: number }) {
                 
                 {/* Visual Media Gallery */}
                 <div className="space-y-12">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
-                    {selectedBrand.projects.filter(p => p.category !== 'Performance').map((project, idx) => (
+                  <div className="grid grid-cols-1 md:grid-cols-4 md:auto-rows-[250px] gap-4 w-full">
+                    {selectedBrand.projects.filter(p => p.category !== 'Performance').map((project, idx) => {
+                      let spanClass = 'md:col-span-1 md:row-span-1';
+                      if (idx === 0) spanClass = 'md:col-span-2 md:row-span-2';
+                      else if (idx === 1) spanClass = 'md:col-span-2 md:row-span-1';
+                      else if (idx === 2) spanClass = 'md:col-span-1 md:row-span-1';
+                      else if (idx === 3) spanClass = 'md:col-span-1 md:row-span-1';
+                      
+                      return (
                       <motion.div 
                         key={project.id + idx}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.05 }}
-                        className="relative group w-full flex flex-col"
+                        className={`relative group w-full flex flex-col ${spanClass}`}
                       >
-                        <div className="w-full relative rounded-2xl overflow-hidden bg-white/5 border border-white/10">
+                        <div className="relative w-full h-full rounded-2xl overflow-hidden border border-zinc-800 bg-white/5">
                           {project.media_type === 'image' && (
                             <img 
                               src={project.media_url} 
                               alt={project.title} 
-                              className="w-full h-auto max-h-[85vh] object-contain"
+                              className="w-full h-full object-cover"
                             />
                           )}
                           {project.media_type === 'video' && (
@@ -315,7 +322,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
                               playsInline
                               onMouseEnter={(e) => e.currentTarget.play()}
                               onMouseLeave={(e) => e.currentTarget.pause()}
-                              className="w-full h-auto max-h-[85vh] object-contain"
+                              className="w-full h-full object-cover"
                             />
                           )}
                           {/* Overlay with info */}
@@ -327,7 +334,8 @@ export default function Portfolio({ limit }: { limit?: number }) {
                           </div>
                         </div>
                       </motion.div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 
