@@ -7,7 +7,7 @@ import StatCounters from '../components/sections/StatCounters';
 import Portfolio from '../components/sections/Portfolio';
 import Services from '../components/sections/Services';
 import CreativeStatement from '../components/sections/CreativeStatement';
-import IndustriesStrip from '../components/sections/IndustriesStrip';
+import ProductsStrip from '../components/sections/ProductsStrip';
 import HowWeWork from '../components/sections/HowWeWork';
 import AIAndCreative from '../components/sections/AIAndCreative';
 import PerformanceSection from '../components/sections/PerformanceSection';
@@ -70,7 +70,7 @@ export default function Home() {
         <Portfolio limit={6} />
         <Services />
         <CreativeStatement />
-        <IndustriesStrip />
+        <ProductsStrip />
         <HowWeWork />
         <AIAndCreative />
         <PerformanceSection />

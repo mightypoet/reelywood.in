@@ -280,28 +280,14 @@ export default function Portfolio({ limit }: { limit?: number }) {
   };
 
   const brandGroups = useMemo(() => {
-    const groups: Record<string, Project[]> = {};
-    projects.forEach(p => {
-      const brand = p.client || 'Unknown Brand';
-      if (!groups[brand]) groups[brand] = [];
-      groups[brand].push(p);
-    });
-    
-    let result = Object.entries(groups).map(([name, brandProjects]) => {
-      const brandRecord = brands.find(b => b.name === name);
-      const coverImage = brandRecord?.cover_image || '';
+    let result = brands.map(brandRecord => {
+      const brandProjects = projects.filter(p => p.client === brandRecord.name);
       
-      const coverProject = brandProjects.find(p => p.media_type === 'image') 
-        || brandProjects.find(p => p.media_type === 'video') 
-        || brandProjects[0];
-        
-      const coverType = 'image'; // Always treat brand cover as image based on prompt
-        
       return {
-        name,
+        name: brandRecord.name,
         projects: brandProjects,
-        coverImage,
-        coverType
+        coverImage: brandRecord.cover_image || '',
+        coverType: 'image' as const
       };
     });
 

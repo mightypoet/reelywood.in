@@ -5,7 +5,7 @@ import Admin from './pages/Admin';
 import About from './pages/About';
 import Blog from './pages/Blog';
 import Contact from './pages/Contact';
-import Industries from './pages/Industries';
+import Products from './pages/Products';
 import Pricing from './pages/Pricing';
 import Services from './pages/Services';
 import Work from './pages/Work';
@@ -20,7 +20,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/industries/*" element={<Industries />} />
+          <Route path="/products/*" element={<Products />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/services" element={<Services />} />
           <Route path="/work" element={<Work />} />
