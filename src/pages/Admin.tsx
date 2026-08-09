@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { Briefcase, Settings, LogOut, Plus, Check, X, ChevronRight, Save, Edit2, Trash2 } from 'lucide-react';
+import { Briefcase, Settings, LogOut, Plus, Check, X, ChevronRight, Save, Edit2, Trash2, GripVertical } from 'lucide-react';
+import { Reorder } from 'framer-motion';
 
 import CreativeStudioManager from '../components/admin/CreativeStudioManager';
 import AIGCManager from '../components/admin/AIGCManager';
@@ -42,7 +43,7 @@ export default function Admin() {
   }, [session]);
 
   const fetchBrands = async () => {
-    const { data } = await supabase.from('brands').select('*').order('name');
+    const { data } = await supabase.from('brands').select('*').order('sort_order', { ascending: true }).order('name');
     if (data) {
       setBrands(data);
     }
@@ -108,6 +109,20 @@ export default function Admin() {
       } else {
         setBrands(brands.filter(b => b.id !== id));
       }
+    }
+  };
+
+  const handleReorderBrands = async (newOrder: any[]) => {
+    setBrands(newOrder);
+    
+    try {
+      await Promise.all(newOrder.map((brand, index) => {
+        return supabase.from('brands')
+          .update({ sort_order: index })
+          .eq('id', brand.id);
+      }));
+    } catch (err) {
+      console.error("Error updating sort order", err);
     }
   };
 
@@ -196,14 +211,34 @@ export default function Admin() {
                   </button>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Reorder.Group axis="y" values={brands} onReorder={handleReorderBrands} className="flex flex-col gap-4">
                   {brands.map(b => (
-                    <div 
+                    <Reorder.Item 
                       key={b.id} 
-                      onClick={() => handleSelectBrand(b)}
-                      className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 cursor-pointer hover:border-zinc-600 transition-colors group flex flex-col relative"
+                      value={b}
+                      className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 cursor-pointer hover:border-zinc-600 transition-colors group flex items-center gap-6 relative"
                     >
-                      <div className="absolute top-4 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                      <div className="flex-shrink-0 cursor-grab active:cursor-grabbing text-zinc-500 hover:text-white p-2">
+                        <GripVertical size={24} />
+                      </div>
+                      
+                      <div className="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 rounded-xl overflow-hidden bg-zinc-800" onClick={() => handleSelectBrand(b)}>
+                        {b.cover_image ? (
+                          <img src={b.cover_image} alt={b.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        ) : (
+                          <div className="w-full h-full bg-zinc-800 flex items-center justify-center text-zinc-500 text-xs font-medium">No Cover</div>
+                        )}
+                      </div>
+                      
+                      <div className="flex-1 min-w-0" onClick={() => handleSelectBrand(b)}>
+                        <h3 className="font-extrabold text-xl mb-1 truncate pr-20">{b.name}</h3>
+                        {b.description && <p className="text-sm text-zinc-400 line-clamp-2 pr-20">{b.description}</p>}
+                        <div className="mt-3 flex items-center text-sm font-medium text-zinc-500 group-hover:text-white transition-colors">
+                          Manage Assets <ChevronRight size={16} className="ml-1" />
+                        </div>
+                      </div>
+
+                      <div className="absolute top-1/2 -translate-y-1/2 right-4 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10 bg-zinc-900/80 p-2 rounded-xl backdrop-blur-sm">
                         <button 
                           onClick={(e) => { e.stopPropagation(); handleSelectBrand(b); }}
                           className="p-2 bg-zinc-800 text-white rounded-lg hover:bg-zinc-700 transition-colors"
@@ -219,20 +254,9 @@ export default function Admin() {
                           <Trash2 size={16} />
                         </button>
                       </div>
-                      
-                      {b.cover_image && (
-                        <div className="w-full h-32 rounded-xl overflow-hidden mb-4 bg-zinc-800">
-                          <img src={b.cover_image} alt={b.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                        </div>
-                      )}
-                      <h3 className="font-extrabold text-xl mb-2 pr-16">{b.name}</h3>
-                      {b.description && <p className="text-sm text-zinc-400 line-clamp-2">{b.description}</p>}
-                      <div className="mt-auto pt-4 flex items-center text-sm font-medium text-zinc-500 group-hover:text-white transition-colors">
-                        Manage Assets <ChevronRight size={16} className="ml-1" />
-                      </div>
-                    </div>
+                    </Reorder.Item>
                   ))}
-                </div>
+                </Reorder.Group>
               </div>
             ) : (
               /* Nested Brand Dashboard */

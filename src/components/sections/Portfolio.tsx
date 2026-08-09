@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, ArrowUpRight, X, TrendingUp, GripHorizontal } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 import {
@@ -210,7 +211,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
       influencerRes,
       performanceRes
     ] = await Promise.all([
-      supabase.from('brands').select('id, name, description, cover_image'),
+      limit ? supabase.from('brands').select('id, name, description, cover_image').order('sort_order', { ascending: true }).limit(limit) : supabase.from('brands').select('id, name, description, cover_image').order('sort_order', { ascending: true }),
       supabase.from('creative_studio').select('*, brands(name)'),
       supabase.from('aigc').select('*, brands(name)'),
       supabase.from('influencer_marketing').select('*, brands(name)'),
@@ -359,7 +360,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
                   {brand.coverImage ? (
                     <img 
                       src={brand.coverImage} 
-                      alt={brand.name} 
+                      alt={brand.name}
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : (
@@ -378,6 +379,16 @@ export default function Portfolio({ limit }: { limit?: number }) {
             </AnimatePresence>
           </motion.div>
         )}
+        
+        {/* View More Button */}
+        <div className="mt-16 flex justify-center">
+          <Link 
+            to="/work" 
+            className="inline-flex items-center gap-2 bg-foreground text-background font-sans font-medium px-8 py-4 hover:bg-primary hover:text-primary-foreground transition-all rounded-sm shadow-sm"
+          >
+            View More Projects <ArrowUpRight className="w-4 h-4" />
+          </Link>
+        </div>
       </div>
 
             {/* Adaptive Gallery Modal */}
