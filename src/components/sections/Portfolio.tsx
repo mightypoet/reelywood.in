@@ -322,7 +322,7 @@ export default function Portfolio({ limit }: { limit?: number }) {
               transition={{ delay: 0.1 }}
               className="text-3xl md:text-5xl font-heading font-bold tracking-tighter text-foreground"
             >
-              2021-26
+              2025-26
             </motion.div>
           </div>
           
