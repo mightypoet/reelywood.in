@@ -23,7 +23,7 @@ export default function Services() {
     <section id="services" className="pt-24 pb-12 relative z-10 bg-background overflow-hidden border-t border-border">
       <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
         <div className="mb-16">
-          <div className="inline-flex items-center rounded-full border border-border bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground mb-4">
+          <div className="inline-flex items-center rounded-full bg-[#5e389e] text-white px-4 py-2 rounded-full text-sm font-bold tracking-widest uppercase mb-4 shadow-[inset_0_-2px_0_rgba(0,0,0,0.2)]">
             Capabilities
           </div>
           <h2 className="font-extrabold text-5xl md:text-6xl font-heading tracking-tighter text-foreground mb-6">

@@ -1,28 +1,27 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #f3f3f3;
-  --color-foreground: #111111;
+  --color-background: #452179;
+  --color-foreground: #ffffff;
   
-  --color-primary: #111111;
-  --color-primary-foreground: #ffffff;
+  --color-primary: #FFCC00;
+  --color-primary-foreground: #111111;
   
-  --color-card: #ffffff;
-  --color-card-foreground: #111111;
+  --color-card: #5E3B9F;
+  --color-card-foreground: #ffffff;
   
-  --color-muted: #e5e5e5;
-  --color-muted-foreground: #666666;
+  --color-muted: #3a1c66;
+  --color-muted-foreground: #a98ce0;
   
-  --color-border: #e5e5e5;
+  --color-border: #33155e;
+  --color-ink: #ffffff;
+  --color-cream: #3a1c66;
+  --color-gold: #FFCC00;
 
-  --color-ink: #111111;
-  --color-cream: #f3f3f3;
-  --color-gold: #c5a059;
-  
-  --font-sans: 'Manrope', system-ui, sans-serif;
-  --font-heading: 'Manrope', system-ui, sans-serif;
-  --font-mono: 'Manrope', system-ui, sans-serif;
-  --font-serif: 'Manrope', system-ui, sans-serif;
+  --font-sans: 'Fredoka', system-ui, sans-serif;
+  --font-heading: 'Fredoka', system-ui, sans-serif;
+  --font-mono: 'Fredoka', system-ui, sans-serif;
+  --font-serif: 'Fredoka', system-ui, sans-serif;
 }
 
 body {
@@ -36,12 +35,48 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
 }
 
+.clay-btn {
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+  border-radius: 9999px;
+  font-weight: 700;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.2);
+  transition: all 0.15s ease;
+  border: 2px solid transparent;
+}
+.clay-btn:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.clay-btn-purple {
+  background-color: #6842B8;
+  color: white;
+  border-radius: 9999px;
+  font-weight: 700;
+  box-shadow: inset 0 -4px 0 rgba(0,0,0,0.15), 0 4px 8px rgba(0,0,0,0.2);
+  transition: all 0.15s ease;
+  border: 2px solid transparent;
+}
+.clay-btn-purple:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 -2px 0 rgba(0,0,0,0.15), 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.clay-card {
+  background-color: var(--color-card);
+  border-radius: 1.5rem;
+  box-shadow: inset 0 -8px 0 rgba(0,0,0,0.15), inset 0 2px 0 rgba(255,255,255,0.1), 0 10px 20px rgba(0,0,0,0.2);
+}
+
 .dark-section {
-  background-color: #000000;
+  background-color: var(--color-background);
   color: #ffffff;
 }
 
 .dark-card {
-  background-color: #1a1a1a;
+  background-color: var(--color-card);
   color: #ffffff;
+  box-shadow: inset 0 -8px 0 rgba(0,0,0,0.15), inset 0 2px 0 rgba(255,255,255,0.1), 0 10px 20px rgba(0,0,0,0.2);
+  border-radius: 1.5rem;
 }
