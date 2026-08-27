@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from './context/ThemeContext';
 import Home from './pages/Home';
 import Admin from './pages/Admin';
 import About from './pages/About';
@@ -13,22 +12,20 @@ import Work from './pages/Work';
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <Router>
-        <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-background">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/products/*" element={<Products />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/work" element={<Work />} />
-          </Routes>
-        </div>
-      </Router>
-    </ThemeProvider>
+    <Router>
+      <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-background">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/products/*" element={<Products />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/work" element={<Work />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
