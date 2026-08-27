@@ -1,35 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowRight, Star } from 'lucide-react';
 import LiquidReveal from '../ui/LiquidReveal';
 
-const carouselItems = [
-  { caption: "Conversion design", title: "Crafted to convert." },
-  { caption: "Engineering", title: "Built to scale." },
-  { caption: "Brand systems", title: "Designed to last." },
-];
-
-const partners = ["Kaido", "Northpeak", "Vellum", "Orbit", "Brightline", "Cobalt", "Mesa"];
-
 export default function Hero() {
   const [ready, setReady] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
 
   useEffect(() => {
     setReady(true);
   }, []);
-
-  const handleNext = () => {
-    setDirection(1);
-    setActiveIndex((prev) => (prev + 1) % carouselItems.length);
-  };
-
-  const handlePrev = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setDirection(-1);
-    setActiveIndex((prev) => (prev - 1 + carouselItems.length) % carouselItems.length);
-  };
 
   const lineVariants = {
     hidden: { y: '100%' },
@@ -38,7 +17,7 @@ export default function Hero() {
       transition: {
         delay: 0.25 + i * 0.12,
         duration: 0.9,
-        ease: [0.215, 0.61, 0.355, 1], // easeOutCubic approx
+        ease: [0.215, 0.61, 0.355, 1] as [number, number, number, number], // easeOutCubic approx
       }
     })
   };
@@ -64,7 +43,7 @@ export default function Hero() {
         className="pointer-events-none absolute inset-x-0 bottom-[7rem] z-[1] text-center select-none font-bold leading-none text-[13rem] text-white/40"
         initial={{ opacity: 0, y: 20 }}
         animate={ready ? { opacity: 0.4, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ type: 'spring', tension: 120, friction: 30, delay: 0.3 }}
+        transition={{ type: 'spring', stiffness: 120, damping: 30, delay: 0.3 }}
       >
         LUMORA
       </motion.div>
@@ -72,16 +51,6 @@ export default function Hero() {
       <div className="shell relative z-20 flex flex-col gap-8 pt-[7rem] px-[1.25rem] pb-[5rem] sm:px-[2rem] lg:grid lg:min-h-[100lvh] lg:grid-cols-12 lg:gap-10 lg:pt-[9rem] lg:px-[2rem] lg:pb-[7rem]">
         
         <div className="flex flex-col gap-7 lg:col-span-7">
-          <motion.div 
-            className="text-[.875rem] font-medium text-[#111111]/70 inline-flex items-center gap-2"
-            initial={{ opacity: 0, y: 10 }}
-            animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ delay: 0.2 }}
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-[#111111]/50" />
-            Independent Studio
-          </motion.div>
-
           <h1 className="max-w-[18ch] text-[2.25rem] font-semibold leading-[.98] tracking-[-.02em] sm:text-[3rem] md:text-[3.75rem]">
             {["Bold ideas,", "shipped with", "quiet precision."].map((line, i) => (
               <span key={i} className="block overflow-clip">
@@ -135,94 +104,6 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        <div className="flex flex-col items-start gap-8 lg:col-span-5 lg:items-end">
-          <motion.div 
-            className="w-full max-w-[24rem] lg:max-w-[19rem] rounded-[1.25rem] bg-white/70 p-2 shadow-sm ring-1 ring-[#e6e5e2]/70 backdrop-blur-[12px]"
-            initial={{ opacity: 0, y: 16, scale: 0.96 }}
-            animate={ready ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 16, scale: 0.96 }}
-            transition={{ type: 'spring', tension: 200, friction: 24, delay: 0.4 }}
-          >
-            <div 
-              className="flex gap-2 cursor-pointer rounded-[.875rem]"
-              onClick={handleNext}
-            >
-              <div className="aspect-square w-[6rem] grid place-items-center rounded-[.875rem] bg-[#0a0a0a] text-white font-bold text-[1.875rem]">
-                <span className="text-[#cf8047]">◒</span>
-              </div>
-              <div className="flex-1 rounded-[.875rem] bg-[#f1f0ee]/70 p-3 flex flex-col justify-between">
-                <div className="relative min-h-[3.25rem] overflow-hidden">
-                  <AnimatePresence initial={false} custom={direction}>
-                    <motion.div
-                      key={activeIndex}
-                      custom={direction}
-                      initial={(d: number) => ({ y: d > 0 ? 14 : -14, opacity: 0 })}
-                      animate={{ y: 0, opacity: 1 }}
-                      exit={(d: number) => ({ y: d > 0 ? -14 : 14, opacity: 0 })}
-                      transition={{ type: 'spring', tension: 300, friction: 28 }}
-                      className="absolute inset-0"
-                    >
-                      <div className="text-[.65rem] font-medium uppercase tracking-[.05em] text-[#111111]/45 mb-0.5">
-                        {carouselItems[activeIndex].caption}
-                      </div>
-                      <div className="max-w-[8rem] text-[.875rem] font-medium leading-[1.35] text-[#111111]">
-                        {carouselItems[activeIndex].title}
-                      </div>
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-                
-                <div className="flex items-center justify-between mt-4">
-                  <div className="flex items-center gap-1">
-                    {carouselItems.map((_, i) => (
-                      <div 
-                        key={i}
-                        className={`h-1 rounded-full transition-all duration-300 ${i === activeIndex ? 'w-4 bg-[#111111]/70' : 'w-1.5 bg-[#111111]/20'}`}
-                      />
-                    ))}
-                  </div>
-                  <div className="flex gap-1">
-                    <button 
-                      onClick={handlePrev}
-                      className="w-7 h-7 grid place-items-center rounded-full bg-white text-[#111111]/70 ring-1 ring-[#e6e5e2] hover:text-[#111111] transition-colors"
-                    >
-                      <ArrowRight size={14} className="rotate-180" />
-                    </button>
-                    <button 
-                      className="w-7 h-7 grid place-items-center rounded-full bg-white text-[#111111]/70 ring-1 ring-[#e6e5e2] hover:text-[#111111] transition-colors"
-                    >
-                      <ArrowRight size={14} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div 
-            className="w-full max-w-[24rem] lg:max-w-[19rem]"
-            initial={{ opacity: 0, y: 14 }}
-            animate={ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
-            transition={{ type: 'spring', tension: 200, friction: 24, delay: 0.55 }}
-          >
-            <div className="mb-3 text-[.75rem] font-medium text-[#111111]/45 text-left lg:text-right">
-              Trusted by
-            </div>
-            <div className="grid grid-cols-4 gap-x-4 gap-y-3">
-              {partners.map((partner, i) => (
-                <motion.span 
-                  key={i}
-                  className="flex items-center gap-1.5 text-[.75rem] text-[#111111]/70 cursor-default"
-                  whileHover={{ y: -2, opacity: 1 }}
-                  initial={{ opacity: 0.7 }}
-                  transition={{ type: 'spring', tension: 320, friction: 20 }}
-                >
-                  <span className="w-1 h-1 rounded-full bg-transparent border-[1.5px] border-[#111111]/40 box-content" />
-                  {partner}
-                </motion.span>
-              ))}
-            </div>
-          </motion.div>
-        </div>
       </div>
 
       <motion.div 
