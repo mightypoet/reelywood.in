@@ -5,6 +5,7 @@ import Hero from '../components/sections/Hero';
 import FeaturedClients from '../components/sections/FeaturedClients';
 import StatCounters from '../components/sections/StatCounters';
 import Portfolio from '../components/sections/Portfolio';
+import SolutionsGrid from '../components/sections/SolutionsGrid';
 import Services from '../components/sections/Services';
 import CreativeStatement from '../components/sections/CreativeStatement';
 import ProductsStrip from '../components/sections/ProductsStrip';
@@ -22,8 +23,12 @@ import FAQSection from '../components/sections/FAQSection';
 import FinalCTA from '../components/sections/FinalCTA';
 import ScrollBlur from '../components/ui/ScrollBlur';
 import Lenis from 'lenis';
+import { useTheme } from '../context/ThemeContext';
 
 export default function Home() {
+  const { mode } = useTheme();
+  const isTech = mode === 'tech';
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -67,18 +72,32 @@ export default function Home() {
         <Hero />
         <FeaturedClients />
         <StatCounters />
-        <Portfolio limit={6} />
+        
+        {isTech ? <SolutionsGrid /> : <Portfolio limit={6} />}
+        
         <Services />
-        <CreativeStatement />
-        <ProductsStrip />
-        <HowWeWork />
-        <AIAndCreative />
-        <PerformanceSection />
-        <InfluencerSection />
+        
+        {!isTech && (
+          <>
+            <CreativeStatement />
+            <ProductsStrip />
+            <HowWeWork />
+            <AIAndCreative />
+            <PerformanceSection />
+            <InfluencerSection />
+          </>
+        )}
+        
         <Testimonials />
-        <FeaturedOn />
-        <AboutSection />
-        <TeamSection />
+        
+        {!isTech && (
+          <>
+            <FeaturedOn />
+            <AboutSection />
+            <TeamSection />
+          </>
+        )}
+        
         <CaseStudies />
         <PricingSection />
         <FAQSection />

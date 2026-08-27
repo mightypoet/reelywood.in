@@ -1,27 +1,52 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: #452179;
-  --color-foreground: #ffffff;
+  --color-background: var(--bg-color);
+  --color-foreground: var(--fg-color);
   
-  --color-primary: #FFCC00;
-  --color-primary-foreground: #111111;
+  --color-primary: var(--primary-color);
+  --color-primary-foreground: var(--primary-fg-color);
   
-  --color-card: #5E3B9F;
-  --color-card-foreground: #ffffff;
+  --color-card: var(--card-color);
+  --color-card-foreground: var(--card-fg-color);
   
-  --color-muted: #3a1c66;
-  --color-muted-foreground: #a98ce0;
+  --color-muted: var(--muted-color);
+  --color-muted-foreground: var(--muted-fg-color);
   
-  --color-border: #33155e;
-  --color-ink: #ffffff;
-  --color-cream: #3a1c66;
-  --color-gold: #FFCC00;
+  --color-border: var(--border-color);
+  
+  --font-sans: var(--font-base);
+  --font-heading: var(--font-head);
+  --font-mono: var(--font-base);
+  --font-serif: var(--font-base);
+}
 
-  --font-sans: 'Fredoka', system-ui, sans-serif;
-  --font-heading: 'Fredoka', system-ui, sans-serif;
-  --font-mono: 'Fredoka', system-ui, sans-serif;
-  --font-serif: 'Fredoka', system-ui, sans-serif;
+:root, .theme-creative {
+  --bg-color: #452179;
+  --fg-color: #ffffff;
+  --primary-color: #FFCC00;
+  --primary-fg-color: #111111;
+  --card-color: #5E3B9F;
+  --card-fg-color: #ffffff;
+  --muted-color: #3a1c66;
+  --muted-fg-color: #a98ce0;
+  --border-color: #33155e;
+  --font-base: 'Fredoka', system-ui, sans-serif;
+  --font-head: 'Fredoka', system-ui, sans-serif;
+}
+
+.theme-tech {
+  --bg-color: #ffffff;
+  --fg-color: #09090b;
+  --primary-color: #09090b;
+  --primary-fg-color: #ffffff;
+  --card-color: #f4f4f5;
+  --card-fg-color: #09090b;
+  --muted-color: #e4e4e7;
+  --muted-fg-color: #71717a;
+  --border-color: #e4e4e7;
+  --font-base: 'Inter', system-ui, sans-serif;
+  --font-head: 'Inter', system-ui, sans-serif;
 }
 
 body {
@@ -69,14 +94,4 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: inset 0 -8px 0 rgba(0,0,0,0.15), inset 0 2px 0 rgba(255,255,255,0.1), 0 10px 20px rgba(0,0,0,0.2);
 }
 
-.dark-section {
-  background-color: var(--color-background);
-  color: #ffffff;
-}
-
-.dark-card {
-  background-color: var(--color-card);
-  color: #ffffff;
-  box-shadow: inset 0 -8px 0 rgba(0,0,0,0.15), inset 0 2px 0 rgba(255,255,255,0.1), 0 10px 20px rgba(0,0,0,0.2);
-  border-radius: 1.5rem;
-}
+/* Minimalist tech overrides for UI elements if needed, we'll handle this in components via JS */

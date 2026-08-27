@@ -4,7 +4,8 @@ import { OrbitControls, useGLTF, Environment, Float, Center, ContactShadows, Spo
 import * as THREE from 'three';
 
 function Model({ url, position, rotation, scale, floatSpeed = 1, floatIntensity = 1, floatRotationIntensity = 1 }: any) {
-  const { scene } = useGLTF(url);
+  const gltf = useGLTF(url) as any;
+  const scene = gltf.scene;
   // Clone scene so we can mutate materials if needed, or just use as is
   return (
     <Float 
@@ -37,12 +38,23 @@ export default function ClayScene() {
           {/* Mascot */}
           <Model 
             url="https://4qvdbq6tu5ltlo61.public.blob.vercel-storage.com/01_mascot.glb" 
-            position={[1, -3, 0]} 
+            position={[2, -3, 0]} 
             rotation={[0, -0.3, 0]} 
             scale={2.8} 
             floatSpeed={1.5}
             floatIntensity={0.5}
             floatRotationIntensity={0.1}
+          />
+          
+          {/* Laptop */}
+          <Model 
+            url="https://4qvdbq6tu5ltlo61.public.blob.vercel-storage.com/reelywood_laptop.glb" 
+            position={[-0.5, -2, 1]} 
+            rotation={[0, 0.5, 0]} 
+            scale={2.2} 
+            floatSpeed={1.5}
+            floatIntensity={0.8}
+            floatRotationIntensity={0.2}
           />
           
           <OrbitControls 
