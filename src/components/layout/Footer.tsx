@@ -35,9 +35,9 @@ export default function Footer() {
           <div>
             <h4 className="font-mono text-xs tracking-widest uppercase text-background/40 mb-8">Social</h4>
             <ul className="space-y-4 font-sans font-light text-lg">
-              <li><a href="https://www.instagram.com/reelywood.studio/" target="_blank" rel="noopener noreferrer" className="hover:text-background/60 transition-colors flex items-center gap-3"><FaInstagram size={20} /> Instagram</a></li>
-              <li><a href="https://www.facebook.com/arfishdealers" target="_blank" rel="noopener noreferrer" className="hover:text-background/60 transition-colors flex items-center gap-3"><FaFacebookF size={20} /> Facebook</a></li>
-              <li><a href="https://in.linkedin.com/company/reelywood" target="_blank" rel="noopener noreferrer" className="hover:text-background/60 transition-colors flex items-center gap-3"><FaLinkedinIn size={20} /> LinkedIn</a></li>
+              <li><a href="#" className="hover:text-background/60 transition-colors flex items-center gap-3"><FaInstagram size={20} /> Instagram</a></li>
+              <li><a href="#" className="hover:text-background/60 transition-colors flex items-center gap-3"><FaFacebookF size={20} /> Facebook</a></li>
+              <li><a href="#" className="hover:text-background/60 transition-colors flex items-center gap-3"><FaLinkedinIn size={20} /> LinkedIn</a></li>
             </ul>
           </div>
         </div>
