@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { TextScatter } from '../ui/text-scatter';
 
 export default function CreativeStatement() {
   return (
@@ -13,7 +14,9 @@ export default function CreativeStatement() {
           className="font-extrabold text-4xl md:text-6xl lg:text-7xl font-heading leading-tight"
         >
           We do not just create content. <br className="hidden md:block"/>
-          <span className="italic font-light">We engineer performance.</span>
+          <span className="italic font-light">
+            <TextScatter>We engineer performance.</TextScatter>
+          </span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
