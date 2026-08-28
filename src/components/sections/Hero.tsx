@@ -33,25 +33,15 @@ export default function Hero() {
       />
 
       <div 
-        className="absolute inset-0 z-[1] pointer-events-none"
-        style={{
-          background: 'linear-gradient(to bottom, rgba(255,255,255,.35), transparent, rgba(255,255,255,.35))'
-        }}
+        className="absolute inset-0 z-[1] pointer-events-none bg-black/50 lg:bg-transparent lg:bg-gradient-to-r lg:from-black/80 lg:via-black/40 lg:to-transparent"
       />
 
-      <motion.div 
-        className="pointer-events-none absolute inset-x-0 bottom-[7rem] z-[1] text-center select-none font-bold leading-none text-[13rem] text-white/40"
-        initial={{ opacity: 0, y: 20 }}
-        animate={ready ? { opacity: 0.4, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ type: 'spring', stiffness: 120, damping: 30, delay: 0.3 }}
-      >
-        LUMORA
-      </motion.div>
 
-      <div className="shell relative z-20 flex flex-col gap-8 pt-[7rem] px-[1.25rem] pb-[5rem] sm:px-[2rem] lg:grid lg:min-h-[100lvh] lg:grid-cols-12 lg:gap-10 lg:pt-[9rem] lg:px-[2rem] lg:pb-[7rem]">
+
+      <div className="shell relative z-20 flex flex-col justify-center gap-8 pt-[7rem] px-[1.25rem] pb-[5rem] sm:px-[2rem] lg:grid lg:min-h-[100lvh] lg:grid-cols-12 lg:gap-10 lg:pt-[9rem] lg:px-[2rem] lg:pb-[7rem]">
         
-        <div className="flex flex-col gap-7 lg:col-span-7">
-          <h1 className="max-w-[18ch] text-[2.25rem] font-semibold leading-[.98] tracking-[-.02em] sm:text-[3rem] md:text-[3.75rem]">
+        <div className="flex flex-col gap-7 lg:col-span-7 max-w-2xl relative z-10">
+          <h1 className="max-w-[18ch] text-[2.25rem] font-semibold leading-[.98] tracking-[-.02em] sm:text-[3rem] md:text-[3.75rem] text-white">
             {["Bold ideas,", "shipped with", "quiet precision."].map((line, i) => (
               <span key={i} className="block overflow-clip">
                 <motion.span
@@ -78,7 +68,7 @@ export default function Hero() {
                 <Star key={i} size={16} fill="currentColor" strokeWidth={0} />
               ))}
             </span>
-            <span className="text-[.875rem] font-medium text-[#111111]/70">
+            <span className="text-[.875rem] font-medium text-white/80">
               200+ brands shipped
             </span>
           </motion.div>
@@ -90,24 +80,23 @@ export default function Hero() {
             transition={{ delay: 0.75 }}
           >
             <button 
-              className="px-5 py-2.5 rounded-full bg-[#111111] text-white text-[.875rem] font-medium inline-flex items-center gap-2 hover:opacity-90 transition-opacity"
+              className="px-5 py-2.5 rounded-full bg-white text-[#111111] text-[.875rem] font-medium inline-flex items-center gap-2 hover:bg-white/90 transition-colors"
               onClick={() => {/* opens request modal */}}
             >
               Let's Talk <ArrowRight size={16} />
             </button>
             <button 
-              className="px-5 py-2.5 rounded-full border border-[#111111]/20 text-[#111111] text-[.875rem] font-medium hover:bg-[#111111]/5 transition-colors"
+              className="px-5 py-2.5 rounded-full border border-white/30 text-white text-[.875rem] font-medium hover:bg-white/10 transition-colors"
               onClick={() => document.getElementById('works')?.scrollIntoView({ behavior: 'smooth' })}
             >
               View Work
             </button>
           </motion.div>
         </div>
-
       </div>
 
       <motion.div 
-        className="shell flex items-center justify-between gap-3 border-t border-[#111111]/10 px-[1.25rem] py-5 sm:px-[2rem] text-[.75rem] font-medium uppercase tracking-[.025em] text-[#111111]/60"
+        className="shell relative z-20 flex items-center justify-between gap-3 border-t border-white/10 px-[1.25rem] py-5 sm:px-[2rem] text-[.75rem] font-medium uppercase tracking-[.025em] text-white/60"
         initial={{ opacity: 0 }}
         animate={ready ? { opacity: 1 } : { opacity: 0 }}
         transition={{ delay: 0.9 }}

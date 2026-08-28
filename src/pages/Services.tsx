@@ -4,6 +4,7 @@ import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import FinalCTA from '../components/sections/FinalCTA';
 import Portfolio from '../components/sections/Portfolio';
+import ServicesSection from '../components/sections/Services';
 import { Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -151,11 +152,10 @@ export default function Services() {
     <Routes>
       <Route path=":slug" element={<ServiceRouter />} />
       <Route path="" element={
-        <div className="min-h-screen pt-48 pb-24 px-6 md:px-12 flex flex-col justify-between bg-background text-foreground">
+        <div className="min-h-screen flex flex-col bg-background text-foreground">
           <Navbar />
-          <div className="max-w-7xl mx-auto w-full flex-grow text-center">
-            <h1 className="font-extrabold text-5xl md:text-7xl font-heading tracking-tighter mb-8">All Services</h1>
-            <p className="text-xl text-foreground/70 font-light">Select a service from the homepage to learn more.</p>
+          <div className="flex-grow pt-16">
+            <ServicesSection />
           </div>
           <Footer />
         </div>

@@ -15,6 +15,9 @@ const influencers = [
 ];
 
 export default function InfluencerSection() {
+  // Duplicate array to allow seamless infinite scrolling
+  const duplicatedInfluencers = [...influencers, ...influencers];
+
   return (
     <section className="py-24 bg-background text-foreground border-t border-border overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 text-center mb-16">
@@ -33,45 +36,39 @@ export default function InfluencerSection() {
         </p>
       </div>
       
-      <RadialScrollGallery
-        className="!min-h-[700px]"
-        baseRadius={450}
-        mobileRadius={250}
-        scrollDuration={2500}
-        visiblePercentage={45}
+      <div 
+        className="w-full overflow-hidden relative flex flex-nowrap"
+        style={{
+          maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)'
+        }}
       >
-        {(hoveredIndex) =>
-          influencers.map((influencer, index) => {
-            const isActive = hoveredIndex === index;
-            return (
-              <div
-                key={influencer.id}
-                className={`
-                  w-[200px] h-[280px] sm:w-[260px] sm:h-[340px] 
-                  rounded-xl border border-border overflow-hidden relative group
-                  transition-all duration-500 shadow-sm
-                  ${isActive 
-                    ? 'scale-100 shadow-xl border-primary' 
-                    : 'scale-90 opacity-70'
-                  }
-                `}
-              >
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
-                <img 
-                  src={influencer.image} 
-                  alt={influencer.name} 
-                  className={`w-full h-full object-cover transition-all duration-500 ${isActive ? 'scale-110 grayscale-0' : 'grayscale'}`} 
-                />
-                
-                <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-20">
-                  <p className="font-heading text-white text-xl font-bold mb-1 tracking-tight">{influencer.name}</p>
-                  <p className="font-mono text-xs text-white/80 uppercase tracking-widest">{influencer.category}</p>
-                </div>
+        <motion.div 
+          className="flex flex-nowrap gap-6 pr-6 w-max"
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{ ease: "linear", duration: 40, repeat: Infinity }}
+        >
+          {duplicatedInfluencers.map((influencer, index) => (
+            <div
+              key={`${influencer.id}-${index}`}
+              className="w-[240px] h-[320px] sm:w-[280px] sm:h-[360px] rounded-xl border border-border overflow-hidden relative group shrink-0 transition-transform duration-500 hover:scale-[1.02]"
+            >
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10"></div>
+              <img 
+                src={influencer.image} 
+                alt={influencer.name}
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" 
+              />
+              <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-20">
+                <p className="font-heading text-white text-xl font-bold mb-1 tracking-tight">{influencer.name}</p>
+                <p className="font-mono text-xs text-white/80 uppercase tracking-widest">{influencer.category}</p>
               </div>
-            );
-          })
-        }
-      </RadialScrollGallery>
+            </div>
+          ))}
+        </motion.div>
+      </div>
     </section>
   );
 }

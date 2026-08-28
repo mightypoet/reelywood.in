@@ -9,13 +9,11 @@ import Services from '../components/sections/Services';
 import CreativeStatement from '../components/sections/CreativeStatement';
 import ProductsStrip from '../components/sections/ProductsStrip';
 import HowWeWork from '../components/sections/HowWeWork';
-import AIAndCreative from '../components/sections/AIAndCreative';
 import PerformanceSection from '../components/sections/PerformanceSection';
 import InfluencerSection from '../components/sections/InfluencerSection';
 import Testimonials from '../components/sections/Testimonials';
 import FeaturedOn from '../components/sections/FeaturedOn';
 import AboutSection from '../components/sections/AboutSection';
-import TeamSection from '../components/sections/TeamSection';
 import CaseStudies from '../components/sections/CaseStudies';
 import PricingSection from '../components/sections/PricingSection';
 import FAQSection from '../components/sections/FAQSection';
@@ -72,13 +70,11 @@ export default function Home() {
         <CreativeStatement />
         <ProductsStrip />
         <HowWeWork />
-        <AIAndCreative />
         <PerformanceSection />
         <InfluencerSection />
         <Testimonials />
         <FeaturedOn />
         <AboutSection />
-        <TeamSection />
         <CaseStudies />
         <PricingSection />
         <FAQSection />

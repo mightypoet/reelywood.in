@@ -55,7 +55,7 @@ type BrandGroup = {
   projects: Project[];
 };
 
-const SortableGalleryItem = ({ project, id }: { project: Project; id: string }) => {
+const SortableGalleryItem: React.FC<{ project: Project; id: string }> = ({ project, id }) => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
 
   const style = {
@@ -84,7 +84,9 @@ const SortableGalleryItem = ({ project, id }: { project: Project; id: string }) 
           <img 
             src={project.media_url} 
             alt={project.title} 
-            className="w-full h-auto block"
+            className="w-full aspect-video object-cover block"
+            loading="lazy"
+            decoding="async"
           />
         )}
         {project.media_type === 'video' && (
@@ -93,9 +95,10 @@ const SortableGalleryItem = ({ project, id }: { project: Project; id: string }) 
             loop
             muted
             playsInline
+            preload="none"
             onMouseEnter={(e) => e.currentTarget.play()}
             onMouseLeave={(e) => e.currentTarget.pause()}
-            className="w-full h-auto block"
+            className="w-full aspect-video object-cover block"
           />
         )}
         {/* Overlay with info */}
@@ -160,10 +163,10 @@ const DraggableGallery = ({ initialProjects }: { initialProjects: Project[] }) =
           <div className="relative group w-full break-inside-avoid">
             <div className="relative w-full rounded-2xl overflow-hidden border border-blue-500 shadow-[0_0_30px_rgba(59,130,246,0.6)] bg-white/5 rotate-2 scale-105">
               {activeProject.media_type === 'image' && (
-                <img src={activeProject.media_url} className="w-full h-auto block" />
+                <img src={activeProject.media_url} loading="lazy" decoding="async" className="w-full aspect-video object-cover block" />
               )}
               {activeProject.media_type === 'video' && (
-                <video src={activeProject.media_url} className="w-full h-auto block" />
+                <video src={activeProject.media_url} playsInline preload="none" className="w-full aspect-video object-cover block" />
               )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6">
                  <span className="inline-block px-3 py-1 bg-white/20 backdrop-blur-md text-white text-xs font-medium rounded-full mb-2 w-max">
@@ -183,7 +186,10 @@ export default function Portfolio({ limit }: { limit?: number }) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [brands, setBrands] = useState<Brand[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedBrand, setSelectedBrand] = useState<BrandGroup | null>(null);
+
+  const [visibleCount, setVisibleCount] = useState(limit || 6);
 
   useEffect(() => {
     fetchProjects();
@@ -201,87 +207,100 @@ export default function Portfolio({ limit }: { limit?: number }) {
   }, [selectedBrand]);
 
   const fetchProjects = async () => {
-    setLoading(true);
-    
-    // Fetch all categories concurrently with joined brand data
-    const [
-      brandsRes,
-      creativeRes,
-      aigcRes,
-      influencerRes,
-      performanceRes
-    ] = await Promise.all([
-      limit ? supabase.from('brands').select('id, name, description, cover_image').order('sort_order', { ascending: true }).limit(limit) : supabase.from('brands').select('id, name, description, cover_image').order('sort_order', { ascending: true }),
-      supabase.from('creative_studio').select('*, brands(name)'),
-      supabase.from('aigc').select('*, brands(name)'),
-      supabase.from('influencer_marketing').select('*, brands(name)'),
-      supabase.from('performance_marketing').select('*, brands(name)')
-    ]);
+    try {
+      setLoading(true);
+      setError(null);
+      
+      // Fetch all categories concurrently with joined brand data
+      const [
+        brandsRes,
+        creativeRes,
+        aigcRes,
+        influencerRes,
+        performanceRes
+      ] = await Promise.all([
+        supabase.from('brands').select('id, name, description, cover_image').order('sort_order', { ascending: true }),
+        supabase.from('creative_studio').select('*, brands(name)'),
+        supabase.from('aigc').select('*, brands(name)'),
+        supabase.from('influencer_marketing').select('*, brands(name)'),
+        supabase.from('performance_marketing').select('*, brands(name)')
+      ]);
 
-    if (brandsRes.data) {
-      setBrands(brandsRes.data);
+      if (brandsRes.error) throw brandsRes.error;
+      if (creativeRes.error) throw creativeRes.error;
+      if (aigcRes.error) throw aigcRes.error;
+      if (influencerRes.error) throw influencerRes.error;
+      if (performanceRes.error) throw performanceRes.error;
+
+      if (brandsRes.data) {
+        setBrands(brandsRes.data);
+      }
+
+      const formattedProjects: Project[] = [];
+
+      if (creativeRes.data) {
+        formattedProjects.push(...creativeRes.data.map(item => ({
+          id: item.id,
+          title: item.title,
+          category: 'Creative Studio',
+          media_type: item.media_type,
+          media_url: item.media_url,
+          client: item.brands?.name || 'Unknown Brand'
+        })));
+      }
+
+      if (aigcRes.data) {
+        formattedProjects.push(...aigcRes.data.map(item => ({
+          id: item.id,
+          title: item.title,
+          category: 'AIGC',
+          media_type: 'video' as const,
+          media_url: item.media_url,
+          client: item.brands?.name || 'Unknown Brand'
+        })));
+      }
+
+      if (influencerRes.data) {
+        formattedProjects.push(...influencerRes.data.map(item => ({
+          id: item.id,
+          title: item.brands?.name || item.brand_name,
+          category: 'Influencer Marketing',
+          media_type: 'video' as const,
+          media_url: item.media_url,
+          description: item.campaign_details,
+          client: item.brands?.name || item.brand_name,
+        })));
+      }
+
+      if (performanceRes.data) {
+        formattedProjects.push(...performanceRes.data.map(item => ({
+          id: item.id,
+          title: item.campaign_name,
+          category: 'Performance',
+          media_type: 'chart' as const, 
+          media_url: item.brand_logo || '',
+          client: item.brands?.name || 'Unknown Brand',
+          stats: {
+            revenue: item.revenue,
+            roas: item.roas,
+            ctr: item.ctr,
+            cpa: item.cpa,
+            chart_data: item.chart_data
+          }
+        })));
+      }
+
+      setProjects(formattedProjects);
+    } catch (err: any) {
+      console.error("Error fetching projects:", err);
+      setError(err.message || "Failed to load projects. Please try again.");
+    } finally {
+      setLoading(false);
     }
-
-    const formattedProjects: Project[] = [];
-
-    if (creativeRes.data) {
-      formattedProjects.push(...creativeRes.data.map(item => ({
-        id: item.id,
-        title: item.title,
-        category: 'Creative Studio',
-        media_type: item.media_type,
-        media_url: item.media_url,
-        client: item.brands?.name || 'Unknown Brand'
-      })));
-    }
-
-    if (aigcRes.data) {
-      formattedProjects.push(...aigcRes.data.map(item => ({
-        id: item.id,
-        title: item.title,
-        category: 'AIGC',
-        media_type: 'video' as const,
-        media_url: item.media_url,
-        client: item.brands?.name || 'Unknown Brand'
-      })));
-    }
-
-    if (influencerRes.data) {
-      formattedProjects.push(...influencerRes.data.map(item => ({
-        id: item.id,
-        title: item.brands?.name || item.brand_name,
-        category: 'Influencer Marketing',
-        media_type: 'video' as const,
-        media_url: item.media_url,
-        description: item.campaign_details,
-        client: item.brands?.name || item.brand_name,
-      })));
-    }
-
-    if (performanceRes.data) {
-      formattedProjects.push(...performanceRes.data.map(item => ({
-        id: item.id,
-        title: item.campaign_name,
-        category: 'Performance',
-        media_type: 'chart' as const, 
-        media_url: item.brand_logo || '',
-        client: item.brands?.name || 'Unknown Brand',
-        stats: {
-          revenue: item.revenue,
-          roas: item.roas,
-          ctr: item.ctr,
-          cpa: item.cpa,
-          chart_data: item.chart_data
-        }
-      })));
-    }
-
-    setProjects(formattedProjects);
-    setLoading(false);
   };
 
   const brandGroups = useMemo(() => {
-    let result = brands.map(brandRecord => {
+    return brands.map(brandRecord => {
       const brandProjects = projects.filter(p => p.client === brandRecord.name);
       
       return {
@@ -291,16 +310,13 @@ export default function Portfolio({ limit }: { limit?: number }) {
         coverType: 'image' as const
       };
     });
+  }, [projects, brands]);
 
-    if (limit) {
-      result = result.slice(0, limit);
-    }
-    return result;
-  }, [projects, limit, brands]);
+  const displayedBrands = brandGroups.slice(0, visibleCount);
 
   return (
-    <section id="portfolio" className="py-24 relative bg-background overflow-hidden">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+    <section id="portfolio" className="py-12 md:py-24 relative bg-background overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-16">
         <div className="flex flex-col md:flex-row md:items-start justify-between mb-20 gap-8 relative">
           <div className="hidden md:block absolute -left-12 top-4 text-foreground/50 text-sm font-medium">
             ({brandGroups.length})
@@ -343,10 +359,19 @@ export default function Portfolio({ limit }: { limit?: number }) {
           <div className="h-64 flex items-center justify-center">
             <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
           </div>
+        ) : error ? (
+          <div className="h-64 flex flex-col items-center justify-center text-center px-4">
+            <p className="text-destructive font-medium mb-2">Error loading portfolio.</p>
+            <p className="text-foreground/70 text-sm">{error}</p>
+          </div>
+        ) : brandGroups.length === 0 ? (
+          <div className="h-64 flex items-center justify-center text-center">
+            <p className="text-foreground/70 text-lg font-medium">No projects found.</p>
+          </div>
         ) : (
-          <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             <AnimatePresence mode="popLayout">
-              {brandGroups.map((brand) => (
+              {displayedBrands.map((brand) => (
                 <motion.div
                   layout
                   key={brand.name}
@@ -361,6 +386,8 @@ export default function Portfolio({ limit }: { limit?: number }) {
                     <img 
                       src={brand.coverImage} 
                       alt={brand.name}
+                      loading="lazy"
+                      decoding="async"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : (
@@ -381,14 +408,16 @@ export default function Portfolio({ limit }: { limit?: number }) {
         )}
         
         {/* View More Button */}
-        <div className="mt-16 flex justify-center">
-          <Link 
-            to="/work" 
-            className="inline-flex items-center gap-2 bg-foreground text-background font-sans font-medium px-8 py-4 hover:bg-primary hover:text-primary-foreground transition-all rounded-sm shadow-sm"
-          >
-            View More Projects <ArrowUpRight className="w-4 h-4" />
-          </Link>
-        </div>
+        {!loading && visibleCount < brandGroups.length && (
+          <div className="mt-16 flex justify-center">
+            <button 
+              onClick={() => setVisibleCount(v => v + 6)}
+              className="inline-flex items-center gap-2 bg-foreground text-background font-sans font-medium px-8 py-4 hover:bg-primary hover:text-primary-foreground transition-all rounded-sm shadow-sm"
+            >
+              View More Projects <ArrowUpRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
       </div>
 
             {/* Adaptive Gallery Modal */}
