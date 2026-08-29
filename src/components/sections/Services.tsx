@@ -3,14 +3,86 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Palette, Play, Users, TrendingUp, Compass, Share2, Layers, Laptop, ArrowRight, X } from 'lucide-react';
 
 const servicesList = [
-  { id: 'creative', title: 'Creative Studio', icon: Palette, color: 'from-pink-500 to-rose-500', bg: 'bg-rose-50', desc: 'Brand creatives, product shoots, and packaging.' },
-  { id: 'aigc', title: 'AIGC Production', icon: Play, color: 'from-indigo-500 to-purple-500', bg: 'bg-indigo-50', desc: 'AI commercials, brand films, and storytelling.' },
-  { id: 'influencer', title: 'Influencer Marketing', icon: Users, color: 'from-amber-500 to-orange-500', bg: 'bg-amber-50', desc: 'Global campaigns with top-tier creators.' },
-  { id: 'performance', title: 'Performance Marketing', icon: TrendingUp, color: 'from-emerald-500 to-teal-500', bg: 'bg-emerald-50', desc: 'Data-driven ROAS optimization and media buying.' },
-  { id: 'strategy', title: 'Brand Strategy', icon: Compass, color: 'from-blue-500 to-cyan-500', bg: 'bg-blue-50', desc: 'Positioning, research, and go-to-market.' },
-  { id: 'social', title: 'Social Media', icon: Share2, color: 'from-fuchsia-500 to-pink-500', bg: 'bg-fuchsia-50', desc: 'Community management and viral content.' },
-  { id: 'motion', title: 'Motion Graphics', icon: Layers, color: 'from-violet-500 to-purple-500', bg: 'bg-violet-50', desc: '2D/3D animation and VFX.' },
-  { id: 'web', title: 'Website Development', icon: Laptop, color: 'from-slate-700 to-slate-900', bg: 'bg-slate-100', desc: 'Premium web apps and digital experiences.' },
+  { 
+    id: 'creative', title: 'Creative Studio', icon: Palette, color: 'from-pink-500 to-rose-500', bg: 'bg-rose-50', desc: 'Brand creatives, product shoots, and packaging.',
+    image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80',
+    details: [
+      { title: 'Concept & Ideation', desc: 'Developing unique visual identities and campaign concepts tailored to your brand.' },
+      { title: 'High-End Photography', desc: 'Professional product, lifestyle, and editorial photography.' },
+      { title: 'Art Direction', desc: 'Comprehensive visual styling and set design for cohesive brand storytelling.' },
+      { title: 'Packaging Design', desc: 'Creating memorable unboxing experiences through premium packaging.' }
+    ]
+  },
+  { 
+    id: 'aigc', title: 'AIGC Production', icon: Play, color: 'from-indigo-500 to-purple-500', bg: 'bg-indigo-50', desc: 'AI commercials, brand films, and storytelling.',
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80',
+    details: [
+      { title: 'Generative Video', desc: 'High-fidelity AI-generated video content and brand films.' },
+      { title: 'AI Storyboarding', desc: 'Rapid conceptualization and scene planning using advanced AI models.' },
+      { title: 'Synthetic Audio', desc: 'Custom AI voiceovers and soundscapes matched perfectly to visuals.' },
+      { title: 'VFX & Post-Production', desc: 'Enhancing AI outputs with professional editing and visual effects.' }
+    ]
+  },
+  { 
+    id: 'influencer', title: 'Influencer Marketing', icon: Users, color: 'from-amber-500 to-orange-500', bg: 'bg-amber-50', desc: 'Global campaigns with top-tier creators.',
+    image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80',
+    details: [
+      { title: 'Creator Discovery', desc: 'Identifying and vetting influencers aligned with your brand values.' },
+      { title: 'Campaign Strategy', desc: 'Designing native, high-engagement content formats.' },
+      { title: 'Contract Negotiation', desc: 'Handling licensing, deliverables, and rates securely.' },
+      { title: 'Performance Tracking', desc: 'Measuring ROI, reach, and conversions for every creator.' }
+    ]
+  },
+  { 
+    id: 'performance', title: 'Performance Marketing', icon: TrendingUp, color: 'from-emerald-500 to-teal-500', bg: 'bg-emerald-50', desc: 'Data-driven ROAS optimization and media buying.',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80',
+    details: [
+      { title: 'Meta & Google Ads', desc: 'Full-funnel media buying across major advertising platforms.' },
+      { title: 'Conversion Optimization', desc: 'Enhancing landing pages to maximize ad spend efficiency.' },
+      { title: 'A/B Testing', desc: 'Rigorous creative and audience testing to find winning combinations.' },
+      { title: 'Analytics & Reporting', desc: 'Transparent, real-time dashboards tracking every dollar spent.' }
+    ]
+  },
+  { 
+    id: 'strategy', title: 'Brand Strategy', icon: Compass, color: 'from-blue-500 to-cyan-500', bg: 'bg-blue-50', desc: 'Positioning, research, and go-to-market.',
+    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80',
+    details: [
+      { title: 'Market Research', desc: 'Deep-dive analysis into target demographics and market gaps.' },
+      { title: 'Brand Positioning', desc: 'Defining your unique value proposition and brand voice.' },
+      { title: 'Go-To-Market Strategy', desc: 'Comprehensive launch plans for new products or services.' },
+      { title: 'Competitor Analysis', desc: 'Identifying competitor weaknesses to capture market share.' }
+    ]
+  },
+  { 
+    id: 'social', title: 'Social Media', icon: Share2, color: 'from-fuchsia-500 to-pink-500', bg: 'bg-fuchsia-50', desc: 'Community management and viral content.',
+    image: 'https://images.unsplash.com/photo-1616469829581-73993eb86b02?auto=format&fit=crop&q=80',
+    details: [
+      { title: 'Content Calendars', desc: 'Strategic planning and scheduling of daily social content.' },
+      { title: 'Community Management', desc: 'Active engagement and moderation to build brand loyalty.' },
+      { title: 'Trend Hijacking', desc: 'Capitalizing on viral moments to maximize organic reach.' },
+      { title: 'Growth Hacking', desc: 'Tactics designed to rapidly scale follower counts and engagement.' }
+    ]
+  },
+  { 
+    id: 'motion', title: 'Motion Graphics', icon: Layers, color: 'from-violet-500 to-purple-500', bg: 'bg-violet-50', desc: '2D/3D animation and VFX.',
+    image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80',
+    details: [
+      { title: '3D Product Modeling', desc: 'Photorealistic 3D renders for e-commerce and advertising.' },
+      { title: 'Explainer Videos', desc: 'Engaging 2D animations to simplify complex concepts.' },
+      { title: 'Logo Animation', desc: 'Dynamic brand identity intros and outros.' },
+      { title: 'Visual Effects', desc: 'High-end compositing and post-production polish.' }
+    ]
+  },
+  { 
+    id: 'web', title: 'Website Development', icon: Laptop, color: 'from-slate-700 to-slate-900', bg: 'bg-slate-100', desc: 'Premium web apps and digital experiences.',
+    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80',
+    details: [
+      { title: 'UI/UX Design', desc: 'User-centric wireframing and high-fidelity interface design.' },
+      { title: 'Front-End Development', desc: 'Performant, responsive applications using React and Tailwind.' },
+      { title: 'E-Commerce Solutions', desc: 'Custom Shopify and headless commerce integrations.' },
+      { title: 'CMS Integration', desc: 'Scalable content management systems for easy updates.' }
+    ]
+  },
 ];
 
 const impactStudies = [
@@ -164,10 +236,10 @@ export default function Services() {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Side Drawer */}
       <AnimatePresence>
         {selectedService && selected && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+          <div className="fixed inset-0 z-[100] flex justify-end">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -176,51 +248,64 @@ export default function Services() {
               className="absolute inset-0 bg-background/80 backdrop-blur-sm"
             />
             <motion.div 
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-3xl bg-background border-4 border-foreground overflow-hidden z-10 flex flex-col md:flex-row"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="relative w-full md:w-[450px] lg:w-[550px] bg-background border-l-4 border-foreground h-full overflow-hidden z-10 flex flex-col shadow-2xl"
             >
-              <div className={`md:w-2/5 p-8 flex flex-col justify-between bg-primary text-primary-foreground`}>
-                <div>
-                  <div className="w-16 h-16 bg-foreground flex items-center justify-center mb-6">
-                    <selected.icon size={32} className="text-primary" />
+              <div className="p-6 md:p-8 flex items-center justify-between bg-primary text-primary-foreground shrink-0 border-b-4 border-foreground">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-foreground flex items-center justify-center shrink-0">
+                    <selected.icon className="text-primary w-6 h-6" />
                   </div>
-                  <h3 className="font-extrabold text-3xl font-heading mb-4 tracking-tight leading-none">{selected.title}</h3>
-                  <p className="font-bold">{selected.desc}</p>
+                  <div>
+                    <h3 className="font-extrabold text-2xl font-heading tracking-tight leading-none">{selected.title}</h3>
+                  </div>
                 </div>
-                
-                <a 
-                  href="#contact"
-                  onClick={() => setSelectedService(null)}
-                  className="mt-8 bg-foreground text-background border border-foreground hover:bg-primary hover:text-foreground px-6 py-3 font-bold tracking-widest tracking-tight transition-colors w-max self-start text-center"
-                >
-                  Discuss a Project
-                </a>
-              </div>
-              
-              <div className="md:w-3/5 p-8 relative">
                 <button 
                   onClick={() => setSelectedService(null)}
-                  className="absolute top-6 right-6 w-10 h-10 bg-border flex items-center justify-center text-foreground hover:bg-foreground hover:text-background transition-colors"
+                  className="w-10 h-10 bg-background/20 hover:bg-background/40 flex items-center justify-center transition-colors shrink-0 border border-transparent hover:border-foreground"
                 >
                   <X size={20} />
                 </button>
+              </div>
+              
+              <div className="flex-1 overflow-y-auto">
+                {selected.image && (
+                  <div className="w-full h-48 sm:h-64 shrink-0 relative border-b-4 border-foreground">
+                    <img src={selected.image} alt={selected.title} className="w-full h-full object-cover" />
+                  </div>
+                )}
                 
-                <h4 className="text-lg font-heading font-medium text-foreground mb-6 mt-4 md:mt-0 tracking-tight">What we do</h4>
-                <ul className="space-y-4">
-                  {[1, 2, 3, 4].map((i) => (
-                    <li key={i} className="flex items-start gap-4">
-                      <div className={`mt-1 w-6 h-6 bg-primary flex items-center justify-center flex-shrink-0`}>
-                        <div className={`w-2 h-2 bg-foreground`}></div>
-                      </div>
-                      <div>
-                        <h5 className="font-heading font-bold text-foreground text-sm tracking-tight tracking-widest">Service Detail {i}</h5>
-                        <p className="text-foreground/70 text-sm mt-1 leading-relaxed">Detailed description of this specific service offering and how it benefits the client.</p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+                <div className="p-6 md:p-8">
+                  <p className="font-bold text-lg mb-8 leading-relaxed text-foreground/90">{selected.desc}</p>
+                  <h4 className="text-base font-heading font-extrabold text-foreground mb-6 tracking-tight uppercase tracking-widest">Capabilities</h4>
+                  <ul className="space-y-6">
+                    {selected.details?.map((detail: any, idx: number) => (
+                      <li key={idx} className="flex items-start gap-4">
+                        <div className={`mt-1.5 w-4 h-4 bg-primary flex items-center justify-center flex-shrink-0 rounded-sm`}>
+                          <div className={`w-1.5 h-1.5 bg-foreground rounded-sm`}></div>
+                        </div>
+                        <div>
+                          <h5 className="font-heading font-bold text-foreground text-base tracking-tight">{detail.title}</h5>
+                          <p className="text-foreground/70 text-sm mt-1.5 leading-relaxed">{detail.desc}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="p-6 border-t-4 border-foreground bg-muted/20 shrink-0">
+                <a 
+                  href="#contact"
+                  onClick={() => setSelectedService(null)}
+                  className="flex items-center justify-between w-full bg-foreground text-background border-2 border-foreground hover:bg-primary hover:text-foreground px-6 py-4 font-bold tracking-widest uppercase transition-colors"
+                >
+                  Discuss a Project
+                  <ArrowRight size={20} className="ml-2" />
+                </a>
               </div>
             </motion.div>
           </div>
