@@ -1,3 +1,6 @@
+const fs = require('fs');
+
+const code = `
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -37,7 +40,7 @@ export default function FeaturedClients() {
                     <img 
                       src={client} 
                       alt="Client Logo" 
-                      className={`w-auto object-contain mix-blend-multiply filter grayscale hover:grayscale-0 transition-all duration-300 ${isScaled ? 'h-[72px] md:h-24' : 'h-12 md:h-16'}`} 
+                      className={\`w-auto object-contain mix-blend-multiply filter grayscale hover:grayscale-0 transition-all duration-300 \${isScaled ? 'h-[72px] md:h-24' : 'h-12 md:h-16'}\`} 
                       referrerPolicy="no-referrer" 
                     />
                   </div>
@@ -54,3 +57,6 @@ export default function FeaturedClients() {
     </section>
   );
 }
+`;
+
+fs.writeFileSync('src/components/sections/FeaturedClients.tsx', code.trim() + '\\n');

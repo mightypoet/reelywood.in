@@ -17,8 +17,12 @@ export default function Footer() {
             <p className="mb-8 max-w-sm font-sans font-light text-background/70 text-lg">
               Ready to scale your business with AI and world-class creative? Drop us a line.
             </p>
-            <a href="mailto:hello@reelywood.com" className="inline-flex items-center gap-4 bg-background text-foreground font-sans font-medium px-8 py-4 hover:bg-primary hover:text-primary-foreground transition-all rounded-sm">
-              hello@reelywood.com <ArrowRight className="w-4 h-4" />
+            <a href="mailto:reelywood@gmail.com" className="inline-flex items-center gap-4 bg-background text-foreground font-sans font-medium px-8 py-4 hover:bg-primary hover:text-primary-foreground transition-all rounded-sm mb-4">
+              reelywood@gmail.com <ArrowRight className="w-4 h-4" />
+            </a>
+            <br />
+            <a href="tel:+919123961368" className="inline-flex items-center gap-4 bg-transparent border border-background/20 text-background font-sans font-medium px-8 py-4 hover:bg-background/10 transition-all rounded-sm">
+              +91 9123961368 <ArrowRight className="w-4 h-4" />
             </a>
           </div>
 

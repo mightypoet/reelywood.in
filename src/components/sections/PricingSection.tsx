@@ -2,38 +2,39 @@ import React from 'react';
 
 const plans = [
   {
-    name: "Growth",
-    price: "₹50k",
-    period: "/mo",
-    desc: "For local businesses looking to build a consistent social presence.",
+    name: "Starter",
+    price: "₹20000",
+    period: "/month",
+    desc: "Your first-step towards your digital presence",
     features: [
-      "4 AI-produced Reels",
-      "Basic social management",
-      "Monthly performance report"
+      "Reel Pack (4 videos/mo)",
+      "Custom Production - By scope",
+      "Dedicated Producer"
     ]
   },
   {
-    name: "Scale",
-    price: "₹1.5L",
-    period: "/mo",
-    desc: "For D2C brands scaling with performance creative.",
+    name: "Professional",
+    price: "Book a",
+    period: " consultation",
+    desc: "Your Brand's leap towards digital growth & empowerment.",
     features: [
       "12 High-converting video assets",
       "A/B testing frameworks",
       "Full ad account management",
-      "Bi-weekly strategy calls"
+      "Bi-weekly strategy meetups"
     ],
     popular: true
   },
   {
-    name: "Enterprise",
-    price: "Custom",
-    period: "",
-    desc: "Full-funnel marketing engine and custom automated workflows.",
+    name: "Elite",
+    price: "Book a",
+    period: " consultation",
+    desc: "A customizable dedicated team to push reach & sales for your brand.",
     features: [
       "Unlimited creative production",
       "Custom AI models & workflows",
       "Dedicated account team",
+      "Any Business Requirements",
       "24/7 Priority support"
     ]
   }

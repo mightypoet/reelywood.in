@@ -1,91 +1,150 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Palette, Play, Users, TrendingUp, Compass, Share2, Layers, Laptop, ArrowRight, X } from 'lucide-react';
+import { Palette, Play, Users, TrendingUp, Compass, Share2, Layers, Laptop, ArrowRight, X, Smartphone, MessageSquare, Video, PenTool, CheckCircle2 } from 'lucide-react';
 
 const servicesList = [
   { 
-    id: 'creative', title: 'Creative Studio', icon: Palette, color: 'from-pink-500 to-rose-500', bg: 'bg-rose-50', desc: 'Brand creatives, product shoots, and packaging.',
-    image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80',
-    details: [
-      { title: 'Concept & Ideation', desc: 'Developing unique visual identities and campaign concepts tailored to your brand.' },
-      { title: 'High-End Photography', desc: 'Professional product, lifestyle, and editorial photography.' },
-      { title: 'Art Direction', desc: 'Comprehensive visual styling and set design for cohesive brand storytelling.' },
-      { title: 'Packaging Design', desc: 'Creating memorable unboxing experiences through premium packaging.' }
-    ]
-  },
-  { 
-    id: 'aigc', title: 'AIGC Production', icon: Play, color: 'from-indigo-500 to-purple-500', bg: 'bg-indigo-50', desc: 'AI commercials, brand films, and storytelling.',
-    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80',
-    details: [
-      { title: 'Generative Video', desc: 'High-fidelity AI-generated video content and brand films.' },
-      { title: 'AI Storyboarding', desc: 'Rapid conceptualization and scene planning using advanced AI models.' },
-      { title: 'Synthetic Audio', desc: 'Custom AI voiceovers and soundscapes matched perfectly to visuals.' },
-      { title: 'VFX & Post-Production', desc: 'Enhancing AI outputs with professional editing and visual effects.' }
-    ]
-  },
-  { 
-    id: 'influencer', title: 'Influencer Marketing', icon: Users, color: 'from-amber-500 to-orange-500', bg: 'bg-amber-50', desc: 'Global campaigns with top-tier creators.',
-    image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80',
-    details: [
-      { title: 'Creator Discovery', desc: 'Identifying and vetting influencers aligned with your brand values.' },
-      { title: 'Campaign Strategy', desc: 'Designing native, high-engagement content formats.' },
-      { title: 'Contract Negotiation', desc: 'Handling licensing, deliverables, and rates securely.' },
-      { title: 'Performance Tracking', desc: 'Measuring ROI, reach, and conversions for every creator.' }
-    ]
-  },
-  { 
-    id: 'performance', title: 'Performance Marketing', icon: TrendingUp, color: 'from-emerald-500 to-teal-500', bg: 'bg-emerald-50', desc: 'Data-driven ROAS optimization and media buying.',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80',
-    details: [
-      { title: 'Meta & Google Ads', desc: 'Full-funnel media buying across major advertising platforms.' },
-      { title: 'Conversion Optimization', desc: 'Enhancing landing pages to maximize ad spend efficiency.' },
-      { title: 'A/B Testing', desc: 'Rigorous creative and audience testing to find winning combinations.' },
-      { title: 'Analytics & Reporting', desc: 'Transparent, real-time dashboards tracking every dollar spent.' }
-    ]
-  },
-  { 
-    id: 'strategy', title: 'Brand Strategy', icon: Compass, color: 'from-blue-500 to-cyan-500', bg: 'bg-blue-50', desc: 'Positioning, research, and go-to-market.',
+    id: 'branding', title: 'Branding', icon: Compass, color: 'from-blue-500 to-cyan-500', bg: 'bg-blue-50', desc: 'Graphic design and branding strategy.',
     image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80',
     details: [
-      { title: 'Market Research', desc: 'Deep-dive analysis into target demographics and market gaps.' },
-      { title: 'Brand Positioning', desc: 'Defining your unique value proposition and brand voice.' },
-      { title: 'Go-To-Market Strategy', desc: 'Comprehensive launch plans for new products or services.' },
-      { title: 'Competitor Analysis', desc: 'Identifying competitor weaknesses to capture market share.' }
+      { title: 'Brand Identity', desc: 'Visual language and core guidelines.' },
+      { title: 'Positioning', desc: 'Market placement and voice.' },
+      { title: 'Strategy', desc: 'Long-term brand roadmaps.' },
+      { title: 'Design Assets', desc: 'Logos, typography, and styling.' }
     ]
   },
   { 
-    id: 'social', title: 'Social Media', icon: Share2, color: 'from-fuchsia-500 to-pink-500', bg: 'bg-fuchsia-50', desc: 'Community management and viral content.',
-    image: 'https://images.unsplash.com/photo-1616469829581-73993eb86b02?auto=format&fit=crop&q=80',
+    id: 'metaads', title: 'MetaAds', icon: TrendingUp, color: 'from-emerald-500 to-teal-500', bg: 'bg-emerald-50', desc: 'Data-driven ROAS optimization and media buying.',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80',
     details: [
-      { title: 'Content Calendars', desc: 'Strategic planning and scheduling of daily social content.' },
-      { title: 'Community Management', desc: 'Active engagement and moderation to build brand loyalty.' },
-      { title: 'Trend Hijacking', desc: 'Capitalizing on viral moments to maximize organic reach.' },
-      { title: 'Growth Hacking', desc: 'Tactics designed to rapidly scale follower counts and engagement.' }
+      { title: 'Campaign Management', desc: 'End-to-end Meta ad setup.' },
+      { title: 'Audience Targeting', desc: 'Precision demographic targeting.' },
+      { title: 'A/B Testing', desc: 'Iterative creative testing.' },
+      { title: 'Performance Analytics', desc: 'Deep dive into ROAS and KPIs.' }
     ]
   },
   { 
-    id: 'motion', title: 'Motion Graphics', icon: Layers, color: 'from-violet-500 to-purple-500', bg: 'bg-violet-50', desc: '2D/3D animation and VFX.',
-    image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80',
-    details: [
-      { title: '3D Product Modeling', desc: 'Photorealistic 3D renders for e-commerce and advertising.' },
-      { title: 'Explainer Videos', desc: 'Engaging 2D animations to simplify complex concepts.' },
-      { title: 'Logo Animation', desc: 'Dynamic brand identity intros and outros.' },
-      { title: 'Visual Effects', desc: 'High-end compositing and post-production polish.' }
-    ]
-  },
-  { 
-    id: 'web', title: 'Website Development', icon: Laptop, color: 'from-slate-700 to-slate-900', bg: 'bg-slate-100', desc: 'Premium web apps and digital experiences.',
+    id: 'webdev', title: 'Web Development', icon: Laptop, color: 'from-slate-700 to-slate-900', bg: 'bg-slate-100', desc: 'Premium web apps and digital experiences.',
     image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80',
     details: [
-      { title: 'UI/UX Design', desc: 'User-centric wireframing and high-fidelity interface design.' },
-      { title: 'Front-End Development', desc: 'Performant, responsive applications using React and Tailwind.' },
-      { title: 'E-Commerce Solutions', desc: 'Custom Shopify and headless commerce integrations.' },
-      { title: 'CMS Integration', desc: 'Scalable content management systems for easy updates.' }
+      { title: 'UI/UX Design', desc: 'User-centric wireframing and design.' },
+      { title: 'Front-End', desc: 'Responsive, fast React applications.' },
+      { title: 'Back-End', desc: 'Scalable server infrastructure.' },
+      { title: 'E-Commerce', desc: 'Custom shop integrations.' }
+    ]
+  },
+  { 
+    id: 'cpaas', title: 'CPaaS', icon: MessageSquare, color: 'from-indigo-500 to-purple-500', bg: 'bg-indigo-50', desc: 'Communication Platform-as-a-Service.',
+    image: 'https://images.unsplash.com/photo-1577563908411-5077b6dc7624?auto=format&fit=crop&q=80',
+    details: [
+      { title: 'SMS & RCS', desc: 'High delivery rate messaging.' },
+      { title: 'Email', desc: 'Automated email sequences.' },
+      { title: 'WhatsApp', desc: 'Direct WhatsApp API integration.' },
+      { title: 'OTP Delivery', desc: '99% delivery rate for critical codes.' }
+    ]
+  },
+  { 
+    id: 'digital', title: 'Digital Marketing', icon: Share2, color: 'from-fuchsia-500 to-pink-500', bg: 'bg-fuchsia-50', desc: 'Cross-industry expertise & impact.',
+    image: 'https://images.unsplash.com/photo-1616469829581-73993eb86b02?auto=format&fit=crop&q=80',
+    details: [
+      { title: 'Lead Generation', desc: 'High-converting funnels.' },
+      { title: 'Google Business', desc: 'Local SEO and maps optimization.' },
+      { title: 'Omnichannel Strategy', desc: 'Unified marketing approach.' },
+      { title: 'Growth Hacking', desc: 'Rapid scaling tactics.' }
+    ]
+  },
+  { 
+    id: 'appdev', title: 'App Dev', icon: Smartphone, color: 'from-violet-500 to-purple-500', bg: 'bg-violet-50', desc: 'Native and cross-platform mobile apps.',
+    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&q=80',
+    details: [
+      { title: 'iOS Development', desc: 'Native Swift applications.' },
+      { title: 'Android Development', desc: 'Native Kotlin applications.' },
+      { title: 'Cross-Platform', desc: 'React Native & Flutter apps.' },
+      { title: 'App Store Optimization', desc: 'Maximizing organic installs.' }
+    ]
+  },
+  { 
+    id: 'videos', title: 'Videos', icon: Video, color: 'from-pink-500 to-rose-500', bg: 'bg-rose-50', desc: 'Video production, Reels, and AIGC.',
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80',
+    details: [
+      { title: 'Reels & Shorts', desc: 'Short-form viral content.' },
+      { title: 'Brand Films', desc: 'High-production value storytelling.' },
+      { title: 'AIGC', desc: 'AI-generated commercials.' },
+      { title: 'Post-Production', desc: 'Editing, VFX, and color grading.' }
+    ]
+  },
+  { 
+    id: 'ugc', title: 'UGC', icon: Users, color: 'from-amber-500 to-orange-500', bg: 'bg-amber-50', desc: 'User-generated content strategies.',
+    image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80',
+    details: [
+      { title: 'Creator Sourcing', desc: 'Finding authentic voices.' },
+      { title: 'Content Briefs', desc: 'Strategic direction for creators.' },
+      { title: 'Usage Rights', desc: 'Full licensing management.' },
+      { title: 'Ad Integration', desc: 'Using UGC in performance ads.' }
+    ]
+  },
+  { 
+    id: 'graphics', title: 'Graphics', icon: PenTool, color: 'from-cyan-500 to-blue-500', bg: 'bg-cyan-50', desc: 'Creative studio and visual design.',
+    image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80',
+    details: [
+      { title: 'Social Creatives', desc: 'Engaging posts and banners.' },
+      { title: 'Packaging', desc: 'Product and box designs.' },
+      { title: 'Motion Graphics', desc: '2D/3D animated assets.' },
+      { title: 'Print Design', desc: 'Brochures, menus, and billboards.' }
+    ]
+  },
+  { 
+    id: 'influencer', title: 'Influencer Marketing', icon: Users, color: 'from-orange-500 to-red-500', bg: 'bg-orange-50', desc: 'Global campaigns with top-tier creators.',
+    image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&q=80',
+    details: [
+      { title: 'Influencer Discovery', desc: 'Matching brand to creator.' },
+      { title: 'Campaign Management', desc: 'End-to-end execution.' },
+      { title: 'Contracting', desc: 'Rates and deliverables negotiation.' },
+      { title: 'ROI Tracking', desc: 'Measuring campaign impact.' }
     ]
   },
 ];
 
 const impactStudies = [
+  {
+    id: 'fnb',
+    title: 'Food & Beverages',
+    industry: 'Food & Beverages',
+    challenge: 'Streamlining menu design and visual communication to drive order value and physical foot traffic.',
+    strategy: 'Strategic visual communication and local SEO optimization.',
+    execution: 'Streamlined menu design and aggressive Google Maps Search optimization.',
+    stats: [
+      { value: '18% AOV', desc: 'Increase in Average Order Value' },
+      { value: '450%', desc: 'Increase in Google Maps Search Views' }
+    ],
+    number: '1'
+  },
+  {
+    id: 'banking',
+    title: 'Banking & Finance',
+    industry: 'Banking & Finance',
+    challenge: 'High customer support time and friction in digital account onboarding.',
+    strategy: 'Communication flow optimization.',
+    execution: 'Optimized communication steps directly advising on flow improvements.',
+    stats: [
+      { value: '20%', desc: 'Reduction in customer support time' },
+      { value: '12%', desc: 'Improvement in digital account onboarding' }
+    ],
+    number: '2'
+  },
+  {
+    id: 'edtech',
+    title: 'Education Technology',
+    industry: 'Education Technology',
+    challenge: 'Low lead generation and poor landing page conversion rates.',
+    strategy: 'Full-Funnel Architecture (TOF video ads, MOF social proof, BOF WhatsApp automation).',
+    execution: 'Landing Page Overhaul with clean design, strong CTAs, and urgency triggers.',
+    stats: [
+      { value: '4.7X', desc: 'Lead Gain' },
+      { value: '2.5x', desc: 'CVR (Conversion Rate)' }
+    ],
+    number: '3'
+  },
   {
     id: 'cabin17a',
     title: 'Cabin17A',
@@ -97,7 +156,7 @@ const impactStudies = [
       { value: '+20%', desc: 'Repeat Bookings increased' },
       { value: '40% Repeat Rate', desc: 'Shifting spend toward owned-channel takeaways' }
     ],
-    number: '1'
+    number: '4'
   },
   {
     id: 'realrista',
@@ -110,7 +169,7 @@ const impactStudies = [
       { value: '100+ Users', desc: 'App installs monthly' },
       { value: '-20% CAC', desc: 'CAC down by 20%' }
     ],
-    number: '2'
+    number: '5'
   },
   {
     id: 'auraganic',
@@ -123,7 +182,7 @@ const impactStudies = [
       { value: '3.2x', desc: 'ROAS' },
       { value: '+20% on Orders', desc: 'Repeat purchase rate' }
     ],
-    number: '3'
+    number: '6'
   }
 ];
 

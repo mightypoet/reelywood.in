@@ -5,6 +5,8 @@ import Footer from '../components/layout/Footer';
 import FinalCTA from '../components/sections/FinalCTA';
 import Portfolio from '../components/sections/Portfolio';
 import ServicesSection from '../components/sections/Services';
+import PricingSection from '../components/sections/PricingSection';
+import WhyUsSection from '../components/sections/WhyUsSection';
 import { Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -156,6 +158,8 @@ export default function Services() {
           <Navbar />
           <div className="flex-grow pt-16">
             <ServicesSection />
+            <WhyUsSection />
+            <PricingSection />
           </div>
           <Footer />
         </div>
