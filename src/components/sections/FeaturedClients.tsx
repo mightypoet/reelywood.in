@@ -26,18 +26,18 @@ export default function FeaturedClients() {
         <motion.div 
           animate={{ x: ["0%", "-50%"] }}
           transition={{ ease: "linear", duration: 35, repeat: Infinity }}
-          className="flex items-center w-max hover:[animation-play-state:paused]"
+          className="flex items-center w-max min-w-max flex-shrink-0 hover:[animation-play-state:paused]"
         >
           {[...Array(2)].map((_, groupIdx) => (
             <div key={groupIdx} className="flex items-center gap-16 md:gap-24 px-8 md:px-12">
               {clients.map((client, idx) => {
                 const isScaled = scaleIndices.includes(idx);
                 return (
-                  <div key={idx} className="flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity duration-300">
+                  <div key={idx} className="flex items-center justify-center flex-shrink-0 opacity-70 hover:opacity-100 transition-opacity duration-300">
                     <img 
                       src={client} 
                       alt="Client Logo" 
-                      className={`w-auto object-contain mix-blend-multiply filter grayscale hover:grayscale-0 transition-all duration-300 ${isScaled ? 'h-[72px] md:h-24' : 'h-12 md:h-16'}`} 
+                      className={`w-auto object-contain transition-all duration-300 ${isScaled ? 'h-[72px] md:h-24' : 'h-12 md:h-16'}`} 
                       referrerPolicy="no-referrer" 
                     />
                   </div>
